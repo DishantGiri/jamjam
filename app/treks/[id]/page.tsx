@@ -37,7 +37,7 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                     if (typeof foundTrek.trek_days === 'string') {
                         let current: any = foundTrek.trek_days;
                         let maxAttempts = 10; // Prevent infinite loops
-                        
+
                         while (maxAttempts > 0 && typeof current === 'string') {
                             try {
                                 const parsed = JSON.parse(current);
@@ -53,7 +53,7 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                 break;
                             }
                         }
-                        
+
                         if (maxAttempts === 0) {
                             console.warn('Trek days parsing exhausted max attempts');
                             foundTrek.trek_days = [];

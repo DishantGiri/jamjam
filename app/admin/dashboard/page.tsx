@@ -639,7 +639,7 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
         if (typeof days === 'string') {
             let current = days;
             let maxAttempts = 10; // Prevent infinite loops
-            
+
             while (maxAttempts > 0 && typeof current === 'string') {
                 try {
                     const parsed = JSON.parse(current);
@@ -658,7 +658,7 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
                     return ['Day 1: '];
                 }
             }
-            
+
             // If we exhausted attempts or got something weird
             return Array.isArray(current) ? current : ['Day 1: '];
         }

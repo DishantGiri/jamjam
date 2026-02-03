@@ -1,5 +1,19 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment Setup
+
+1. Copy the `.env.example` file to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Update the environment variables in `.env.local` if needed:
+   ```env
+   NEXT_PUBLIC_API_BASE_URL=http://161.97.167.73:8001/api
+   NEXT_PUBLIC_IMAGE_DOMAIN=161.97.167.73
+   NEXT_PUBLIC_IMAGE_PORT=8001
+   ```
+
 ## Getting Started
 
 First, run the development server:

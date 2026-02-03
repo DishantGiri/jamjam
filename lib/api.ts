@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://161.97.167.73:8001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://161.97.167.73:8001/api';
 
 export interface Trek {
     id: number;
