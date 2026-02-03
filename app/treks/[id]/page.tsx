@@ -32,11 +32,37 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                 // Find the specific trek by ID
                 const foundTrek = trekData.find((t: Trek) => t.id === parseInt(resolvedParams.id));
 
-                // Parse trek_days if it's a string (handle multiple layers of escaping)
+                // Parse trek_days if it's a string or array with escaped items (handle multiple layers of escaping)
                 if (foundTrek && foundTrek.trek_days) {
-                    if (typeof foundTrek.trek_days === 'string') {
+                    // If it's an array, check if items need parsing
+                    if (Array.isArray(foundTrek.trek_days)) {
+                        foundTrek.trek_days = foundTrek.trek_days.map((item: any) => {
+                            if (typeof item === 'string' && (item.startsWith('[') || item.startsWith('"['))) {
+                                let current: any = item;
+                                let maxAttempts = 10;
+                                
+                                while (maxAttempts > 0 && typeof current === 'string') {
+                                    try {
+                                        const parsed = JSON.parse(current);
+                                        if (Array.isArray(parsed)) {
+                                            current = parsed.length > 0 ? parsed[0] : '';
+                                        } else {
+                                            current = parsed;
+                                        }
+                                        maxAttempts--;
+                                    } catch (e) {
+                                        break;
+                                    }
+                                }
+                                return current;
+                            }
+                            return item;
+                        });
+                    } 
+                    // If it's a string, parse it
+                    else if (typeof foundTrek.trek_days === 'string') {
                         let current: any = foundTrek.trek_days;
-                        let maxAttempts = 10; // Prevent infinite loops
+                        let maxAttempts = 10;
 
                         while (maxAttempts > 0 && typeof current === 'string') {
                             try {
@@ -288,14 +314,32 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                     <div className="bg-white rounded-lg p-6 shadow-sm">
                                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Itinerary</h2>
                                         <div className="space-y-3">
-                                            {trek.trek_days.map((day, index: number) => (
-                                                <div key={index} className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                                    <div className="flex-shrink-0 w-8 h-8 bg-cyan-100 text-cyan-700 rounded-full flex items-center justify-center font-semibold text-sm">
-                                                        {index + 1}
+                                            {trek.trek_days.map((day, index: number) => {
+                                                // Parse day if it's still a string
+                                                let displayDay = day;
+                                                if (typeof day === 'string' && (day.startsWith('[') || day.startsWith('"['))) {
+                                                    try {
+                                                        let parsed = day;
+                                                        let attempts = 0;
+                                                        while (typeof parsed === 'string' && attempts < 10) {
+                                                            parsed = JSON.parse(parsed);
+                                                            attempts++;
+                                                        }
+                                                        displayDay = Array.isArray(parsed) ? parsed[0] : parsed;
+                                                    } catch (e) {
+                                                        displayDay = day;
+                                                    }
+                                                }
+
+                                                return (
+                                                    <div key={index} className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                                        <div className="flex-shrink-0 w-8 h-8 bg-cyan-100 text-cyan-700 rounded-full flex items-center justify-center font-semibold text-sm">
+                                                            {index + 1}
+                                                        </div>
+                                                        <p className="text-gray-700 pt-1">{displayDay}</p>
                                                     </div>
-                                                    <p className="text-gray-700 pt-1">{day}</p>
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 )}

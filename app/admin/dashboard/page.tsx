@@ -630,10 +630,42 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
 
     // Parse trek_days - handle if it comes as a string or array with multiple layers of escaping
     const parseTrekDays = (days: any): string[] => {
+        console.log('Parsing trek_days, input:', days, 'type:', typeof days);
+
         if (!days) return ['Day 1: '];
 
-        // If it's already an array, return it
-        if (Array.isArray(days)) return days.length > 0 ? days : ['Day 1: '];
+        // If it's already an array, check if items need parsing
+        if (Array.isArray(days)) {
+            console.log('Is an array:', days);
+
+            // Parse each item in the array if it's an escaped string
+            const parsedArray = days.map(item => {
+                if (typeof item === 'string' && (item.startsWith('[') || item.startsWith('"['))) {
+                    let current = item;
+                    let maxAttempts = 10;
+
+                    while (maxAttempts > 0 && typeof current === 'string') {
+                        try {
+                            const parsed = JSON.parse(current);
+                            if (Array.isArray(parsed)) {
+                                // If we get an array, flatten it or take first element
+                                current = parsed.length > 0 ? parsed[0] : '';
+                            } else {
+                                current = parsed;
+                            }
+                            maxAttempts--;
+                        } catch (e) {
+                            break;
+                        }
+                    }
+                    return current;
+                }
+                return item;
+            });
+
+            console.log('Parsed array items:', parsedArray);
+            return parsedArray.length > 0 ? parsedArray : ['Day 1: '];
+        }
 
         // If it's a string, try to parse it recursively (might be over-escaped JSON)
         if (typeof days === 'string') {
@@ -643,8 +675,10 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
             while (maxAttempts > 0 && typeof current === 'string') {
                 try {
                     const parsed = JSON.parse(current);
+                    console.log(`Parse attempt ${11 - maxAttempts}:`, parsed);
                     if (Array.isArray(parsed)) {
                         // If we got an array, return it
+                        console.log('Got array after parsing:', parsed);
                         return parsed.length > 0 ? parsed : ['Day 1: '];
                     }
                     // If parsed but not an array, continue parsing
@@ -652,6 +686,7 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
                     maxAttempts--;
                 } catch (e) {
                     // If parsing fails, return what we have
+                    console.log('Parse failed, returning:', current);
                     if (typeof current === 'string' && current.trim()) {
                         return [current];
                     }
@@ -660,13 +695,12 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
             }
 
             // If we exhausted attempts or got something weird
+            console.log('Exhausted attempts, final result:', current);
             return Array.isArray(current) ? current : ['Day 1: '];
         }
 
         return ['Day 1: '];
-    };
-
-    const [trekDays, setTrekDays] = useState<string[]>(parseTrekDays(trek.trek_days));
+    }; const [trekDays, setTrekDays] = useState<string[]>(parseTrekDays(trek.trek_days));
     const [submitting, setSubmitting] = useState(false);
 
     const addTrekDay = () => {
@@ -704,6 +738,9 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
                 }
             });
 
+            console.log('Submitting trekDays:', trekDays);
+            console.log('trekDays is array:', Array.isArray(trekDays));
+            console.log('trekDays JSON:', JSON.stringify(trekDays));
             formDataToSend.append('trek_days', JSON.stringify(trekDays));
 
             if (featuredImage) {
@@ -1335,6 +1372,14 @@ function CreateBlogModal({ onClose, onSuccess }: ModalProps) {
             const token = localStorage.getItem('authToken');
             if (!token) {
                 alert('Authentication required. Please log in again.');
+                setSubmitting(false);
+                return;
+            }
+
+            // Validate required fields
+            if (!featuredImage) {
+                alert('Please select a featured image');
+                setSubmitting(false);
                 return;
             }
 
@@ -1350,10 +1395,7 @@ function CreateBlogModal({ onClose, onSuccess }: ModalProps) {
             });
 
             formDataToSend.append('content', JSON.stringify(contentSections));
-
-            if (featuredImage) {
-                formDataToSend.append('featured_image', featuredImage);
-            }
+            formDataToSend.append('featured_image', featuredImage);
 
             await createBlog(token, formDataToSend);
             alert('Blog post created successfully!');
