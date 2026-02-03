@@ -36,7 +36,7 @@ export default function Navbar() {
                     </div>
                 </Link>
 
-                <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+                <div className="hidden md:flex items-center gap-8 text-lg font-medium">
                     <Link
                         href="/"
                         className={`transition-colors cursor-pointer ${isActive('/') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
