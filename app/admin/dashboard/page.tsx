@@ -86,35 +86,35 @@ export default function AdminDashboard() {
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <header className="bg-[#1e3a5f] text-white shadow-lg">
-                <div className="max-w-7xl mx-auto px-6 py-6">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <div className="flex items-center gap-3 mb-2">
-                                <Mountain className="w-8 h-8 text-cyan-400" />
-                                <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+                    <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                                <Mountain className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400 flex-shrink-0" />
+                                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold truncate">Admin Dashboard</h1>
                             </div>
-                            <p className="text-gray-300 text-sm">Manage your content and monitor performance</p>
+                            <p className="text-gray-300 text-xs sm:text-sm hidden sm:block">Manage your content and monitor performance</p>
                         </div>
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
+                            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 rounded-lg transition-colors duration-200 text-xs sm:text-sm font-medium flex-shrink-0"
                         >
                             <LogOut className="w-4 h-4" />
-                            Logout
+                            <span className="hidden sm:inline">Logout</span>
                         </button>
                     </div>
                 </div>
             </header>
 
             {/* Tabs */}
-            <div className="bg-white border-b shadow-sm">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex gap-2">
+            <div className="bg-white border-b shadow-sm overflow-x-auto">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div className="flex gap-1 sm:gap-2 min-w-max sm:min-w-0">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`px-6 py-3 font-medium text-sm transition-colors duration-200 border-b-2 ${activeTab === tab.id
+                                className={`px-4 sm:px-6 py-2 sm:py-3 font-medium text-xs sm:text-sm transition-colors duration-200 border-b-2 whitespace-nowrap ${activeTab === tab.id
                                     ? 'text-cyan-500 border-cyan-500'
                                     : 'text-gray-600 border-transparent hover:text-gray-900'
                                     }`}
@@ -127,7 +127,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-6 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
                 {activeTab === 'overview' && <OverviewTab />}
                 {activeTab === 'treks' && <TreksTab />}
                 {activeTab === 'blogs' && <BlogsTab />}
@@ -386,24 +386,24 @@ function CreateTrekModal({ onClose, onSuccess }: ModalProps) {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
-            <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
-                <div className="sticky top-0 bg-gradient-to-r from-cyan-500 to-cyan-600 px-6 py-5 flex justify-between items-center">
-                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                        <Mountain className="w-6 h-6" />
-                        Create New Trek
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 animate-in fade-in duration-200">
+            <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
+                <div className="sticky top-0 bg-gradient-to-r from-cyan-500 to-cyan-600 px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center">
+                    <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        <Mountain className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <span className="truncate">Create New Trek</span>
                     </h3>
                     <button
                         onClick={onClose}
-                        className="text-white/80 hover:text-white hover:bg-white/20 rounded-lg p-1 transition-all duration-200"
+                        className="text-white/80 hover:text-white hover:bg-white/20 rounded-lg p-1 transition-all duration-200 flex-shrink-0"
                     >
-                        <X className="w-6 h-6" />
+                        <X className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                 </div>
 
-                <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
-                    <form onSubmit={handleSubmit} className="p-6 space-y-5">
-                        <div className="grid grid-cols-2 gap-4">
+                <div className="overflow-y-auto max-h-[calc(95vh-70px)] sm:max-h-[calc(90vh-80px)]">
+                    <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">Title *</label>
                                 <input
@@ -572,11 +572,11 @@ function CreateTrekModal({ onClose, onSuccess }: ModalProps) {
                             </label>
                         </div>
 
-                        <div className="flex gap-3 pt-4">
+                        <div className="flex flex-col sm:flex-row gap-3 pt-4">
                             <button
                                 type="submit"
                                 disabled={submitting}
-                                className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white px-6 py-3 rounded-lg transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white px-6 py-3 rounded-lg transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed order-2 sm:order-1"
                             >
                                 {submitting ? (
                                     <span className="flex items-center justify-center gap-2">
@@ -591,7 +591,7 @@ function CreateTrekModal({ onClose, onSuccess }: ModalProps) {
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-semibold"
+                                className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-semibold order-1 sm:order-2"
                             >
                                 Cancel
                             </button>
@@ -1713,11 +1713,11 @@ function TreksTab() {
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Manage Treks</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Manage Treks</h2>
                 <button
                     onClick={() => setShowCreateModal(true)}
-                    className="bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2.5 rounded-lg transition-colors duration-200 text-sm font-medium flex items-center gap-2"
+                    className="bg-cyan-500 hover:bg-cyan-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg transition-colors duration-200 text-sm font-medium flex items-center gap-2 w-full sm:w-auto justify-center"
                 >
                     <Plus className="w-4 h-4" />
                     Add New Trek
@@ -1747,30 +1747,30 @@ function TreksTab() {
 
             <div className="space-y-4">
                 {treks.map((trek) => (
-                    <div key={trek.id} className="bg-white rounded-lg shadow-md p-6">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{trek.title}</h3>
-                                <div className="flex items-center gap-4 text-sm text-gray-600">
-                                    <span>{trek.location}</span>
-                                    <span>•</span>
-                                    <span>${trek.price} {trek.currency}</span>
-                                    <span>•</span>
-                                    <span className={`font-medium ${trek.is_active ? 'text-green-600' : 'text-gray-500'}`}>
+                    <div key={trek.id} className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 truncate">{trek.title}</h3>
+                                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                                    <span className="truncate">{trek.location}</span>
+                                    <span className="hidden sm:inline">•</span>
+                                    <span className="whitespace-nowrap">${trek.price} {trek.currency}</span>
+                                    <span className="hidden sm:inline">•</span>
+                                    <span className={`font-medium whitespace-nowrap ${trek.is_active ? 'text-green-600' : 'text-gray-500'}`}>
                                         {trek.is_active ? 'Active' : 'Inactive'}
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 w-full sm:w-auto">
                                 <button
                                     onClick={() => setEditingTrek(trek)}
-                                    className="px-4 py-2 bg-white border border-cyan-500 text-cyan-500 hover:bg-cyan-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm"
+                                    className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-white border border-cyan-500 text-cyan-500 hover:bg-cyan-50 rounded-lg transition-colors duration-200 text-xs sm:text-sm font-medium shadow-sm"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     onClick={() => handleDeleteTrek(trek.id, trek.title)}
-                                    className="px-4 py-2 bg-white border border-red-500 text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm"
+                                    className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-white border border-red-500 text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200 text-xs sm:text-sm font-medium shadow-sm"
                                 >
                                     Delete
                                 </button>
