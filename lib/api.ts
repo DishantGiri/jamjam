@@ -353,3 +353,54 @@ export const createBlog = async (token: string, formData: FormData) => {
         throw error;
     }
 };
+
+export const updateBlog = async (token: string, id: number, formData: FormData) => {
+    try {
+        // Laravel requires _method field for PUT with FormData
+        formData.append('_method', 'PUT');
+
+        const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to update blog');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error updating blog:', error);
+        throw error;
+    }
+};
+
+export const deleteBlog = async (token: string, id: number) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to delete blog');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error deleting blog:', error);
+        throw error;
+    }
+};

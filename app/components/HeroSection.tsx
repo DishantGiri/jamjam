@@ -23,15 +23,15 @@ export default function HeroSection() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                    <Link 
+                    <Link
                         href="/treks"
-                        className="bg-cyan-400 hover:bg-cyan-500 hover:scale-105 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center"
+                        className="bg-[#2C5F7D] hover:bg-[#234d66] hover:scale-105 text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center border-2 border-[#2C5F7D]"
                     >
                         Explore Treks
                     </Link>
-                    <Link 
+                    <Link
                         href="/treks"
-                        className="bg-gray-800/80 hover:bg-gray-700/80 hover:scale-105 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-xl text-center"
+                        className="bg-transparent hover:bg-white/10 hover:scale-105 text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-xl text-center border-2 border-white"
                     >
                         View Packages
                     </Link>

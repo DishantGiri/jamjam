@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Calendar, User, ImageIcon } from 'lucide-react';
+import { Calendar, User, ImageIcon, ArrowRight } from 'lucide-react';
 
 export default function BlogPage() {
     const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -39,27 +39,33 @@ export default function BlogPage() {
     }, []);
 
     const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        return new Date(dateString).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
     };
 
     return (
         <div className="min-h-screen bg-gray-50">
             <Navbar />
-            {/* Hero Section */}
-            <section className="bg-gradient-to-r from-cyan-500 to-cyan-600 text-white py-16 mt-20">
+
+            {/* Header Section */}
+            <section className="bg-[#2C5F7D] text-white py-12 mt-16 md:mt-20">
                 <div className="max-w-7xl mx-auto px-6">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-3">Travel Blog</h1>
-                    <p className="text-lg">Stories, guides, and insights from the Himalayas</p>
+                    <h1 className="text-3xl md:text-4xl font-bold mb-2">Travel Blog</h1>
+                    <p className="text-white/80 text-sm md:text-base max-w-2xl">
+                        Tips, guides, and stories from the Himalayan trails
+                    </p>
                 </div>
             </section>
 
             {/* Blog Grid */}
-            <section className="py-8">
+            <section className="py-12">
                 <div className="max-w-7xl mx-auto px-6">
                     {loading ? (
                         <div className="text-center py-20">
-                            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+                            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F7D]"></div>
                         </div>
                     ) : blogs.length === 0 ? (
                         <div className="text-center py-20">
@@ -67,69 +73,58 @@ export default function BlogPage() {
                             <p className="text-gray-500 mt-2">Check back soon for stories and guides!</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {blogs.map((blog) => (
                                 <Link
                                     key={blog.id}
                                     href={`/blog/${blog.slug}`}
-                                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer block"
+                                    className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer block group border border-gray-100 flex flex-col h-full"
                                 >
                                     {/* Image */}
-                                    <div className="relative h-64 pt-2">
+                                    <div className="relative h-56 bg-gray-200">
                                         {blog.image_url ? (
                                             <Image
                                                 src={blog.image_url}
                                                 alt={blog.title}
                                                 fill
-                                                className="object-contain"
+                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                                unoptimized
                                             />
                                         ) : (
                                             <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                                <ImageIcon className="w-16 h-16" strokeWidth={1.5} />
+                                                <ImageIcon className="w-12 h-12" strokeWidth={1.5} />
                                             </div>
                                         )}
                                     </div>
 
                                     {/* Content */}
-                                    <div className="p-6">
+                                    <div className="p-6 flex flex-col flex-grow">
                                         {/* Meta Info */}
-                                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                                            {blog.author && (
-                                                <div className="flex items-center gap-1">
-                                                    <User className="w-4 h-4" />
-                                                    <span>{blog.author}</span>
-                                                </div>
-                                            )}
-                                            <div className="flex items-center gap-1">
-                                                <Calendar className="w-4 h-4" />
+                                        <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
+                                            <div className="flex items-center gap-1.5">
+                                                <User className="w-3.5 h-3.5" />
+                                                <span>{blog.author || 'Admin'}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                <Calendar className="w-3.5 h-3.5" />
                                                 <span>{formatDate(blog.created_at)}</span>
                                             </div>
                                         </div>
 
                                         {/* Title */}
-                                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#2C5F7D] transition-colors">
                                             {blog.title}
                                         </h3>
 
-                                        {/* Excerpt */}
-                                        {blog.excerpt && (
-                                            <p className="text-gray-600 mb-4 line-clamp-3">
-                                                {blog.excerpt}
-                                            </p>
-                                        )}
-
-                                        {/* Description */}
-                                        {blog.description && (
-                                            <p className="text-sm text-gray-500 mb-4 line-clamp-2">
-                                                {blog.description}
-                                            </p>
-                                        )}
+                                        {/* Excerpt/Description */}
+                                        <p className="text-sm text-gray-600 mb-6 line-clamp-3 leading-relaxed flex-grow">
+                                            {blog.excerpt || blog.description || "Read more about this adventures in the Himalayas..."}
+                                        </p>
 
                                         {/* Read More Link */}
-                                        <span className="text-cyan-600 font-medium hover:text-cyan-700 transition-colors duration-200 flex items-center gap-2 group">
-                                            Read More
-                                            <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
-                                        </span>
+                                        <div className="mt-auto text-sm font-semibold text-[#2C5F7D] flex items-center gap-1 group-hover:gap-2 transition-all">
+                                            Read More <ArrowRight className="w-4 h-4" />
+                                        </div>
                                     </div>
                                 </Link>
                             ))}

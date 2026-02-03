@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Zap, ImageIcon } from 'lucide-react';
+import { Clock, Zap, ImageIcon, MapPin, TrendingUp } from 'lucide-react';
 import { getTreks, type Trek } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -45,20 +45,28 @@ export default function FeaturedTreks() {
     }, []);
 
     return (
-        <section className="py-20 bg-gray-50">
+        <section className="py-12 bg-white">
             <div className="max-w-7xl mx-auto px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                        Featured Treks
-                    </h2>
-                    <p className="text-xl text-gray-600">
-                        Explore our most popular trekking routes and packages
-                    </p>
+                <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                    <div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                            Featured Treks
+                        </h2>
+                        <p className="text-gray-600">
+                            Explore our most popular trekking routes
+                        </p>
+                    </div>
+                    <Link
+                        href="/treks"
+                        className="hidden md:inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
+                    >
+                        View All Treks
+                    </Link>
                 </div>
 
                 {loading ? (
                     <div className="text-center py-12">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#2C5F7D]"></div>
                     </div>
                 ) : (
                     <>
@@ -72,62 +80,82 @@ export default function FeaturedTreks() {
                                     <Link
                                         key={trek.id}
                                         href={`/treks/${trek.id}`}
-                                        className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer block"
+                                        className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer block group flex flex-col h-full"
                                     >
-                                        <div className="relative h-64 bg-gradient-to-br from-blue-200 to-purple-200">
+                                        <div className="relative h-56 bg-gray-100">
                                             {imageUrl ? (
                                                 <Image
                                                     src={imageUrl}
                                                     alt={trek.title}
                                                     fill
-                                                    className="object-cover"
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                                                     unoptimized
                                                 />
                                             ) : (
                                                 <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                                    <ImageIcon className="w-20 h-20" strokeWidth={1.5} />
+                                                    <ImageIcon className="w-12 h-12" strokeWidth={1.5} />
                                                 </div>
                                             )}
                                             <div className="absolute top-4 right-4">
-                                                <span className="bg-cyan-400 text-white px-4 py-2 rounded-full text-sm font-semibold capitalize">
-                                                    {trek.data_type}
+                                                <span className="bg-orange-400 text-white px-3 py-1 rounded text-xs font-semibold shadow-sm">
+                                                    Featured
+                                                </span>
+                                            </div>
+                                            <div className="absolute bottom-4 left-4">
+                                                <span className="flex items-center text-white text-sm font-medium drop-shadow-md">
+                                                    <MapPin className="w-4 h-4 mr-1" />
+                                                    {trek.location || "Nepal"}
                                                 </span>
                                             </div>
                                         </div>
 
-                                        <div className="p-6">
-                                            <h3 className="text-xl font-bold text-gray-900 mb-3">{trek.title}</h3>
+                                        <div className="p-5 flex flex-col flex-grow">
+                                            <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-1" title={trek.title}>{trek.title}</h3>
 
-                                            <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                                                <div className="flex items-center gap-1">
-                                                    <Clock className="w-4 h-4" />
-                                                    {trek.duration}
+                                            <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                                <div className="flex items-center gap-6">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Clock className="w-4 h-4" />
+                                                        {trek.duration}
+                                                    </div>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Zap className="w-4 h-4" />
+                                                        {"100 km"}
+                                                    </div>
                                                 </div>
-                                                <div className="flex items-center gap-1">
-                                                    <Zap className="w-4 h-4" />
+                                            </div>
+
+                                            <div className="flex items-center gap-2 mb-6">
+                                                <span className="flex items-center gap-1 text-sm text-gray-500">
+                                                    <TrendingUp className="w-4 h-4" />
+                                                    Trek
+                                                </span>
+                                                <span className="bg-red-50 text-red-500 text-xs px-2 py-1 rounded font-medium">
                                                     {trek.difficulty}
-                                                </div>
+                                                </span>
                                             </div>
 
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-2xl font-bold text-cyan-600">
-                                                ${trek.price}
-                                                <span className="text-sm text-gray-500 font-normal">/person</span>
+                                            <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                                                <div>
+                                                    <p className="text-xs text-gray-400 mb-0.5">From</p>
+                                                    <div className="text-xl font-bold text-[#2C5F7D]">
+                                                        ${trek.price}
+                                                    </div>
+                                                </div>
+                                                <button className="bg-[#2C5F7D] hover:bg-[#244f68] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                                    View Details
+                                                </button>
                                             </div>
-                                            <span className="bg-cyan-400 hover:bg-cyan-500 hover:scale-105 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200">
-                                                View Details
-                                            </span>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
                                 );
                             })}
                         </div>
 
-                        <div className="text-center mt-12">
-                            <Link 
+                        <div className="text-center mt-8 md:hidden">
+                            <Link
                                 href="/treks"
-                                className="inline-block bg-cyan-400 hover:bg-cyan-500 hover:scale-105 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+                                className="inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
                             >
                                 View All Treks
                             </Link>

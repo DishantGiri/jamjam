@@ -4,9 +4,9 @@ import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react';
 
 export default function Footer() {
     return (
-        <footer className="bg-[#1a2332] text-white py-12">
+        <footer className="bg-[#1A3D50] text-white py-8">
             <div className="max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                     {/* Company Info */}
                     <div>
                         <div className="flex items-center mb-4">
@@ -19,7 +19,7 @@ export default function Footer() {
                                 />
                             </div>
                         </div>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-sky-100 text-sm">
                             We are the experts in Nepal trekking and adventure activities in Nepal.
                         </p>
                     </div>
@@ -27,19 +27,19 @@ export default function Footer() {
                     {/* Quick Links */}
                     <div>
                         <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
-                        <ul className="space-y-2 text-gray-400">
-                            <li><Link href="/" className="hover:text-cyan-400 transition-colors cursor-pointer">Home</Link></li>
-                            <li><Link href="/treks" className="hover:text-cyan-400 transition-colors cursor-pointer">Treks</Link></li>
-                            <li><Link href="/activities" className="hover:text-cyan-400 transition-colors cursor-pointer">Activities</Link></li>
-                            <li><Link href="/blog" className="hover:text-cyan-400 transition-colors cursor-pointer">Blog</Link></li>
-                            <li><Link href="/reviews" className="hover:text-cyan-400 transition-colors cursor-pointer">Reviews</Link></li>
+                        <ul className="space-y-2 text-sky-100">
+                            <li><Link href="/" className="hover:text-white transition-colors cursor-pointer">Home</Link></li>
+                            <li><Link href="/treks" className="hover:text-white transition-colors cursor-pointer">Treks</Link></li>
+                            <li><Link href="/activities" className="hover:text-white transition-colors cursor-pointer">Activities</Link></li>
+                            <li><Link href="/blog" className="hover:text-white transition-colors cursor-pointer">Blog</Link></li>
+                            <li><Link href="/reviews" className="hover:text-white transition-colors cursor-pointer">Reviews</Link></li>
                         </ul>
                     </div>
 
                     {/* Contact Us */}
                     <div>
                         <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
-                        <ul className="space-y-2 text-gray-400 text-sm">
+                        <ul className="space-y-2 text-sky-100 text-sm">
                             <li className="flex items-start gap-2">
                                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
                                 Kathmandu, Kathmandu, Nepal

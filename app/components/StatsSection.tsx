@@ -9,16 +9,15 @@ export default function StatsSection() {
     ];
 
     return (
-        <section className="bg-gradient-to-r from-cyan-400 to-cyan-500 py-12">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
+        <section className="bg-[#2C5F7D] py-8 relative -mt-10 z-20 mx-4 md:mx-auto max-w-7xl rounded-lg shadow-xl">
+            <div className="px-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white divide-x-0 md:divide-x divide-white/20">
                     {stats.map((stat, index) => {
                         const IconComponent = stat.icon;
                         return (
-                            <div key={index} className="flex flex-col items-center">
-                                <IconComponent className="w-12 h-12 mb-3" strokeWidth={1.5} />
-                                <div className="text-3xl md:text-4xl font-bold mb-1">{stat.value}</div>
-                                <div className="text-sm md:text-base opacity-90">{stat.label}</div>
+                            <div key={index} className="flex flex-col items-center justify-center p-2">
+                                <div className="text-3xl md:text-3xl font-bold mb-1">{stat.value}</div>
+                                <div className="text-xs md:text-sm text-sky-100 font-medium">{stat.label}</div>
                             </div>
                         );
                     })}

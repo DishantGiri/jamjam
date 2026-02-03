@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Mountain, Activity, FileText, MessageSquare, LogOut, Star, X, Plus } from 'lucide-react';
-import { verifyAuth as verifyAuthAPI, createTrek, createBlog, updateTrek, deleteTrek } from '@/lib/api';
+import { Mountain, Activity, FileText, MessageSquare, LogOut, Star, X, Plus, Edit, Trash2 } from 'lucide-react';
+import { verifyAuth as verifyAuthAPI, createTrek, createBlog, updateTrek, deleteTrek, updateBlog, deleteBlog } from '@/lib/api';
 
 type Tab = 'overview' | 'treks' | 'blogs' | 'reviews';
 
@@ -1395,7 +1395,10 @@ function CreateBlogModal({ onClose, onSuccess }: ModalProps) {
             });
 
             formDataToSend.append('content', JSON.stringify(contentSections));
-            formDataToSend.append('featured_image', featuredImage);
+
+            if (featuredImage) {
+                formDataToSend.append('image', featuredImage);
+            }
 
             await createBlog(token, formDataToSend);
             alert('Blog post created successfully!');
@@ -1593,6 +1596,296 @@ function CreateBlogModal({ onClose, onSuccess }: ModalProps) {
                                         Creating...
                                     </span>
                                 ) : 'Create Blog Post'}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-semibold"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// Edit Blog Modal Component
+function EditBlogModal({ blog, onClose, onSuccess }: { blog: any; onClose: () => void; onSuccess: () => void }) {
+    const [formData, setFormData] = useState({
+        title: blog.title || '',
+        subtitle: blog.subtitle || '',
+        description: blog.description || '',
+        excerpt: blog.excerpt || '',
+        author: blog.author || '',
+        conclusion: blog.conclusion || '',
+        slug: blog.slug || '',
+        is_active: blog.is_active || false
+    });
+    const [featuredImage, setFeaturedImage] = useState<File | null>(null);
+    const [contentSections, setContentSections] = useState<Array<{ heading: string, paragraph: string }>>(
+        Array.isArray(blog.content) && blog.content.length > 0
+            ? blog.content
+            : [{ heading: '', paragraph: '' }]
+    );
+    const [submitting, setSubmitting] = useState(false);
+
+    const addContentSection = () => {
+        setContentSections([...contentSections, { heading: '', paragraph: '' }]);
+    };
+
+    const removeContentSection = (index: number) => {
+        setContentSections(contentSections.filter((_, i) => i !== index));
+    };
+
+    const updateContentSection = (index: number, field: 'heading' | 'paragraph', value: string) => {
+        const updated = [...contentSections];
+        updated[index][field] = value;
+        setContentSections(updated);
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setSubmitting(true);
+
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Authentication required. Please log in again.');
+                setSubmitting(false);
+                return;
+            }
+
+            const formDataToSend = new FormData();
+
+            Object.entries(formData).forEach(([key, value]) => {
+                // Convert booleans to 1 or 0 for backend
+                if (typeof value === 'boolean') {
+                    formDataToSend.append(key, value ? '1' : '0');
+                } else {
+                    formDataToSend.append(key, value.toString());
+                }
+            });
+
+            formDataToSend.append('content', JSON.stringify(contentSections));
+
+            if (featuredImage) {
+                formDataToSend.append('image', featuredImage);
+            }
+
+            await updateBlog(token, blog.id, formDataToSend);
+            alert('Blog post updated successfully!');
+            onSuccess();
+        } catch (error: any) {
+            console.error('Error updating blog:', error);
+            alert(error.message || 'An error occurred while updating the blog');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+            <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
+                <div className="sticky top-0 bg-gradient-to-r from-teal-500 to-teal-600 px-6 py-5 flex justify-between items-center">
+                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                        <Edit className="w-6 h-6" />
+                        Edit Blog Post
+                    </h3>
+                    <button
+                        onClick={onClose}
+                        className="text-white/80 hover:text-white hover:bg-white/20 rounded-lg p-1 transition-all duration-200"
+                    >
+                        <X className="w-6 h-6" />
+                    </button>
+                </div>
+
+                <div className="overflow-y-auto max-h-[calc(90vh-80px)]">
+                    <form onSubmit={handleSubmit} className="p-6 space-y-5">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                            <input
+                                type="text"
+                                required
+                                value={formData.title}
+                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+                            <input
+                                type="text"
+                                value={formData.subtitle}
+                                onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Author *</label>
+                                <input
+                                    type="text"
+                                    required
+                                    value={formData.author}
+                                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Slug *</label>
+                                <input
+                                    type="text"
+                                    required
+                                    placeholder="url-friendly-slug"
+                                    value={formData.slug}
+                                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Excerpt *</label>
+                            <textarea
+                                required
+                                rows={2}
+                                value={formData.excerpt}
+                                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+                            <textarea
+                                required
+                                rows={3}
+                                value={formData.description}
+                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            />
+                        </div>
+
+                        <div>
+                            <div className="flex justify-between items-center mb-2">
+                                <label className="block text-sm font-medium text-gray-700">Content Sections</label>
+                                <button
+                                    type="button"
+                                    onClick={addContentSection}
+                                    className="text-sm text-teal-500 hover:text-teal-600 flex items-center gap-1"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    Add Section
+                                </button>
+                            </div>
+                            <div className="space-y-3">
+                                {contentSections.map((section, index) => (
+                                    <div key={index} className="border border-gray-200 rounded-lg p-3 space-y-2">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-sm font-medium text-gray-600">Section {index + 1}</span>
+                                            {contentSections.length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeContentSection(index)}
+                                                    className="text-red-500 hover:text-red-600"
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </button>
+                                            )}
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Heading"
+                                            value={section.heading}
+                                            onChange={(e) => updateContentSection(index, 'heading', e.target.value)}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+                                        />
+                                        <textarea
+                                            rows={3}
+                                            placeholder="Paragraph"
+                                            value={section.paragraph}
+                                            onChange={(e) => updateContentSection(index, 'paragraph', e.target.value)}
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Conclusion</label>
+                            <textarea
+                                rows={3}
+                                value={formData.conclusion}
+                                onChange={(e) => setFormData({ ...formData, conclusion: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Featured Image {featuredImage && <span className="text-green-600 text-xs">(✓ New image selected: {featuredImage.name})</span>}
+                            </label>
+                            {blog.image_url && !featuredImage && (
+                                <div className="mb-2">
+                                    <p className="text-xs text-gray-500 mb-1">Current image:</p>
+                                    <img
+                                        src={blog.image_url}
+                                        alt="Current blog"
+                                        className="h-20 w-auto object-cover rounded border border-gray-300"
+                                    />
+                                </div>
+                            )}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => setFeaturedImage(e.target.files?.[0] || null)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            />
+                            {featuredImage && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Size: {(featuredImage.size / 1024).toFixed(1)} KB
+                                </p>
+                            )}
+                            {!featuredImage && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Leave empty to keep current image
+                                </p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={formData.is_active}
+                                    onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+                                    className="w-4 h-4 text-teal-500 border-gray-300 rounded focus:ring-teal-500"
+                                />
+                                <span className="text-sm text-gray-700">Active</span>
+                            </label>
+                        </div>
+
+                        <div className="flex gap-3 pt-4">
+                            <button
+                                type="submit"
+                                disabled={submitting}
+                                className="flex-1 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-6 py-3 rounded-lg transition-all duration-200 font-semibold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {submitting ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Updating...
+                                    </span>
+                                ) : 'Update Blog Post'}
                             </button>
                             <button
                                 type="button"
@@ -1902,6 +2195,8 @@ function BlogsTab() {
     const [blogs, setBlogs] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [selectedBlog, setSelectedBlog] = useState<any>(null);
 
     useEffect(() => {
         fetchBlogs();
@@ -1932,6 +2227,32 @@ function BlogsTab() {
             setBlogs([]);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleEdit = (blog: any) => {
+        setSelectedBlog(blog);
+        setShowEditModal(true);
+    };
+
+    const handleDelete = async (blogId: number, blogTitle: string) => {
+        if (!confirm(`Are you sure you want to delete "${blogTitle}"? This action cannot be undone.`)) {
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                alert('Authentication required. Please log in again.');
+                return;
+            }
+
+            await deleteBlog(token, blogId);
+            alert('Blog deleted successfully!');
+            fetchBlogs(); // Refresh the list
+        } catch (error: any) {
+            console.error('Error deleting blog:', error);
+            alert(error.message || 'Failed to delete blog');
         }
     };
 
@@ -1971,29 +2292,71 @@ function BlogsTab() {
                 />
             )}
 
+            {showEditModal && selectedBlog && (
+                <EditBlogModal
+                    blog={selectedBlog}
+                    onClose={() => {
+                        setShowEditModal(false);
+                        setSelectedBlog(null);
+                    }}
+                    onSuccess={() => {
+                        setShowEditModal(false);
+                        setSelectedBlog(null);
+                        fetchBlogs();
+                    }}
+                />
+            )}
+
             <div className="space-y-4">
-                {blogs.map((blog) => (
-                    <div key={blog.id} className="bg-white rounded-lg shadow-md p-6">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{blog.title}</h3>
-                                <div className="flex items-center gap-4 text-sm text-gray-600">
-                                    <span>{blog.author || 'Admin'}</span>
-                                    <span>•</span>
-                                    <span>{formatDate(blog.created_at)}</span>
+                {blogs.length === 0 ? (
+                    <div className="bg-white rounded-lg shadow-md p-10 text-center">
+                        <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                        <p className="text-gray-500 text-lg">No blog posts yet</p>
+                        <p className="text-gray-400 text-sm mt-2">Create your first blog post to get started</p>
+                    </div>
+                ) : (
+                    blogs.map((blog) => (
+                        <div key={blog.id} className="bg-white rounded-lg shadow-md p-6">
+                            <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <h3 className="text-lg font-bold text-gray-900">{blog.title}</h3>
+                                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${blog.is_active
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-gray-100 text-gray-700'
+                                            }`}>
+                                            {blog.is_active ? 'Active' : 'Inactive'}
+                                        </span>
+                                    </div>
+                                    {blog.subtitle && (
+                                        <p className="text-gray-600 text-sm mb-2">{blog.subtitle}</p>
+                                    )}
+                                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                                        <span>{blog.author || 'Admin'}</span>
+                                        <span>•</span>
+                                        <span>{formatDate(blog.created_at)}</span>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 ml-4">
+                                    <button
+                                        onClick={() => handleEdit(blog)}
+                                        className="px-4 py-2 bg-white border border-teal-500 text-teal-500 hover:bg-teal-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm flex items-center gap-2"
+                                    >
+                                        <Edit className="w-4 h-4" />
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(blog.id, blog.title)}
+                                        className="px-4 py-2 bg-white border border-red-500 text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm flex items-center gap-2"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                        Delete
+                                    </button>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
-                                <button className="px-4 py-2 bg-white border border-teal-500 text-teal-500 hover:bg-teal-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm">
-                                    Edit
-                                </button>
-                                <button className="px-4 py-2 bg-white border border-red-500 text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm">
-                                    Delete
-                                </button>
-                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </div>
     );
