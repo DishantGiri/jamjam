@@ -68,7 +68,7 @@ export default function ToursPage() {
     useEffect(() => {
         const fetchTours = async () => {
             try {
-                const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://161.97.167.73:8001/api';
+                const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
                 const response = await fetch(`${API_BASE_URL}/tours?is_active=1`);
                 const result = await response.json();
 

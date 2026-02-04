@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Mountain, Activity, FileText, MessageSquare, LogOut, Star, X, Plus, Edit, Trash2, Plane, MapPin, Clock, Users } from 'lucide-react';
 import { verifyAuth as verifyAuthAPI, createTrek, createBlog, updateTrek, deleteTrek, updateBlog, deleteBlog, createTour, updateTour, deleteTour } from '@/lib/api';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://161.97.167.73:8001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type Tab = 'overview' | 'treks' | 'tours' | 'blogs' | 'reviews';
 
