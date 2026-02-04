@@ -59,7 +59,8 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
     useEffect(() => {
         const fetchTour = async () => {
             try {
-                const response = await fetch(`http://161.97.167.73:8001/api/tours/${resolvedParams.id}`);
+                const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://161.97.167.73:8001/api';
+                const response = await fetch(`${API_BASE_URL}/tours/${resolvedParams.id}`);
                 const data = await response.json();
 
                 let foundTour = null;
