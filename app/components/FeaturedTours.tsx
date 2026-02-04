@@ -46,8 +46,9 @@ export default function FeaturedTours() {
     useEffect(() => {
         const fetchTours = async () => {
             try {
+                const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://161.97.167.73:8001/api';
                 // Fetch active tours (remove is_featured filter since no tours are marked as featured yet)
-                const response = await fetch('http://161.97.167.73:8001/api/tours?is_active=1');
+                const response = await fetch(`${API_BASE_URL}/tours?is_active=1`);
                 const data = await response.json();
 
                 console.log('Tours API Response:', data); // Debug log

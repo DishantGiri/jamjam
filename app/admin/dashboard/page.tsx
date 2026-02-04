@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Mountain, Activity, FileText, MessageSquare, LogOut, Star, X, Plus, Edit, Trash2, Plane, MapPin, Clock, Users } from 'lucide-react';
 import { verifyAuth as verifyAuthAPI, createTrek, createBlog, updateTrek, deleteTrek, updateBlog, deleteBlog, createTour, updateTour, deleteTour } from '@/lib/api';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://161.97.167.73:8001/api';
+
 type Tab = 'overview' | 'treks' | 'tours' | 'blogs' | 'reviews';
 
 export default function AdminDashboard() {
@@ -46,7 +48,7 @@ export default function AdminDashboard() {
 
         if (token) {
             try {
-                await fetch('http://161.97.167.73:8001/api/logout', {
+                await fetch(`${API_BASE_URL}/logout`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -169,10 +171,10 @@ function OverviewTab() {
 
             // Fetch all data in parallel
             const [treksRes, toursRes, blogsRes, reviewsRes] = await Promise.all([
-                fetch('http://161.97.167.73:8001/api/treks', { headers }),
-                fetch('http://161.97.167.73:8001/api/tours', { headers }),
-                fetch('http://161.97.167.73:8001/api/blogs', { headers }),
-                fetch('http://161.97.167.73:8001/api/reviews', { headers })
+                fetch(`${API_BASE_URL}/treks`, { headers }),
+                fetch(`${API_BASE_URL}/tours`, { headers }),
+                fetch(`${API_BASE_URL}/blogs`, { headers }),
+                fetch(`${API_BASE_URL}/reviews`, { headers })
             ]);
 
             const treksData = await treksRes.json();
@@ -1977,7 +1979,7 @@ function TreksTab() {
     const fetchTreks = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://161.97.167.73:8001/api/treks', {
+            const response = await fetch(`${API_BASE_URL}/treks`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -2131,7 +2133,7 @@ function ActivitiesTab() {
     const fetchActivities = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://161.97.167.73:8001/api/activities', {
+            const response = await fetch(`${API_BASE_URL}/activities`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -2247,7 +2249,7 @@ function BlogsTab() {
     const fetchBlogs = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://161.97.167.73:8001/api/blogs', {
+            const response = await fetch(`${API_BASE_URL}/blogs`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -2419,7 +2421,7 @@ function ToursTab() {
     const fetchTours = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://161.97.167.73:8001/api/tours', {
+            const response = await fetch(`${API_BASE_URL}/tours`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -3396,7 +3398,7 @@ function ReviewsTab() {
     const fetchReviews = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch('http://161.97.167.73:8001/api/reviews', {
+            const response = await fetch(`${API_BASE_URL}/reviews`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -3424,7 +3426,7 @@ function ReviewsTab() {
     const handleApprove = async (reviewId: number) => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://161.97.167.73:8001/api/reviews/${reviewId}/approve`, {
+            const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}/approve`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -3448,7 +3450,7 @@ function ReviewsTab() {
 
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`http://161.97.167.73:8001/api/reviews/${reviewId}`, {
+            const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
