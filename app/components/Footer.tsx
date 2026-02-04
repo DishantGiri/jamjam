@@ -10,14 +10,17 @@ export default function Footer() {
                     {/* Company Info */}
                     <div>
                         <div className="flex items-center mb-4">
-                            <div className="relative w-54 h-15">
+                            <div className="relative w-20 h-20">
                                 <Image
-                                    src="/footerLogo.png"
+                                    src="/logo.png"
                                     alt="JamJam Trek Logo"
                                     fill
                                     className="object-cover"
                                 />
                             </div>
+                            <span className="text-2xl font-bold text-[#ffff] hover:text-[#244f68] transition-colors">
+                                JamJam Treks
+                            </span>
                         </div>
                         <p className="text-sky-100 text-sm">
                             We are the experts in Nepal trekking and adventure activities in Nepal.

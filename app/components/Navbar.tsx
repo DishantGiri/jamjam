@@ -26,7 +26,7 @@ export default function Navbar() {
         <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md shadow-sm border-b border-gray-100">
             <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
                 <Link href="/" className="flex items-center">
-                    <div className="relative w-54 h-14">
+                    <div className="relative w-20 h-20">
                         <Image
                             src="/logo.png"
                             alt="JamJam Trek Logo"
@@ -34,6 +34,9 @@ export default function Navbar() {
                             className="object-cover"
                         />
                     </div>
+                    <span className="text-2xl font-bold text-[#2C5F7D] hover:text-[#244f68] transition-colors">
+                        JamJam Treks
+                    </span>
                 </Link>
 
                 <div className="hidden md:flex items-center gap-8 text-lg font-medium">
