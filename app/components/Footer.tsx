@@ -10,12 +10,12 @@ export default function Footer() {
                     {/* Company Info */}
                     <div>
                         <div className="flex items-center mb-4">
-                            <div className="relative w-48 h-16">
+                            <div className="relative w-54 h-15">
                                 <Image
-                                    src="/logo.png"
+                                    src="/footerLogo.png"
                                     alt="JamJam Trek Logo"
                                     fill
-                                    className="object-contain"
+                                    className="object-cover"
                                 />
                             </div>
                         </div>

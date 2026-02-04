@@ -77,6 +77,31 @@ export interface Blog {
     updated_at: string;
 }
 
+export interface Tour {
+    id: number;
+    title: string;
+    destination: string;
+    description?: string;
+    featured_image?: string;
+    featured_image_url?: string;
+    gallery_images?: string[];
+    price: number;
+    currency: string;
+    discount_price?: number;
+    duration_days: number;
+    duration_nights: number;
+    difficulty_level: string;
+    max_group_size: number;
+    min_group_size: number;
+    tour_type: string;
+    available_slots: number;
+    is_featured: boolean;
+    is_popular: boolean;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
 // Treks API
 export const getTreks = async (params?: { data_type?: 'trek' | 'package'; is_active?: boolean; is_featured?: boolean }) => {
     const queryParams = new URLSearchParams();
@@ -356,9 +381,7 @@ export const createBlog = async (token: string, formData: FormData) => {
 
 export const updateBlog = async (token: string, id: number, formData: FormData) => {
     try {
-        // Laravel requires _method field for PUT with FormData
-        formData.append('_method', 'PUT');
-
+        // According to API docs, blog update uses POST to /blogs/{id}
         const response = await fetch(`${API_BASE_URL}/blogs/${id}`, {
             method: 'POST',
             headers: {
@@ -401,6 +424,97 @@ export const deleteBlog = async (token: string, id: number) => {
         return data;
     } catch (error) {
         console.error('Error deleting blog:', error);
+        throw error;
+    }
+};
+
+// Tours API
+export const getTours = async (params?: { is_active?: boolean; is_featured?: boolean; is_popular?: boolean }) => {
+    const queryParams = new URLSearchParams();
+    if (params?.is_active !== undefined) queryParams.append('is_active', params.is_active ? '1' : '0');
+    if (params?.is_featured !== undefined) queryParams.append('is_featured', params.is_featured ? '1' : '0');
+    if (params?.is_popular !== undefined) queryParams.append('is_popular', params.is_popular ? '1' : '0');
+
+    const url = `${API_BASE_URL}/tours${queryParams.toString() ? `?${queryParams}` : ''}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Failed to fetch tours');
+    return response.json();
+};
+
+export const getTour = async (id: number) => {
+    const response = await fetch(`${API_BASE_URL}/tours/${id}`);
+    if (!response.ok) throw new Error('Failed to fetch tour');
+    return response.json();
+};
+
+export const createTour = async (token: string, formData: FormData) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tours`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to create tour');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error creating tour:', error);
+        throw error;
+    }
+};
+
+export const updateTour = async (token: string, id: number, formData: FormData) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tours/${id}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to update tour');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error updating tour:', error);
+        throw error;
+    }
+};
+
+export const deleteTour = async (token: string, id: number) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tours/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to delete tour');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error deleting tour:', error);
         throw error;
     }
 };

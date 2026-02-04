@@ -50,6 +50,12 @@ export default function Navbar() {
                         Treks
                     </Link>
                     <Link
+                        href="/tours"
+                        className={`transition-colors cursor-pointer ${isActive('/tours') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                    >
+                        Tours
+                    </Link>
+                    <Link
                         href="/blog"
                         className={`transition-colors cursor-pointer ${isActive('/blog') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
                     >
@@ -91,6 +97,13 @@ export default function Navbar() {
                             className={`block py-2 transition-colors ${isActive('/treks') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
                         >
                             Treks
+                        </Link>
+                        <Link
+                            href="/tours"
+                            onClick={closeMenu}
+                            className={`block py-2 transition-colors ${isActive('/tours') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        >
+                            Tours
                         </Link>
                         <Link
                             href="/blog"

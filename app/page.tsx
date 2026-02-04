@@ -2,6 +2,7 @@ import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import StatsSection from './components/StatsSection';
 import FeaturedTreks from './components/FeaturedTreks';
+import FeaturedTours from './components/FeaturedTours';
 import Testimonials from './components/Testimonials';
 import BlogSection from './components/BlogSection';
 import CTASection from './components/CTASection';
@@ -15,6 +16,7 @@ export default function Home() {
         <HeroSection />
         <StatsSection />
         <FeaturedTreks />
+        <FeaturedTours />
         <BlogSection />
         <Testimonials />
         <CTASection />
