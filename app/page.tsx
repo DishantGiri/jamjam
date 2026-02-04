@@ -3,6 +3,7 @@ import HeroSection from './components/HeroSection';
 import StatsSection from './components/StatsSection';
 import FeaturedTreks from './components/FeaturedTreks';
 import FeaturedTours from './components/FeaturedTours';
+import AboutUs from './components/AboutUs';
 import Testimonials from './components/Testimonials';
 import BlogSection from './components/BlogSection';
 import CTASection from './components/CTASection';
@@ -18,6 +19,7 @@ export default function Home() {
         <FeaturedTreks />
         <FeaturedTours />
         <BlogSection />
+        <AboutUs />
         <Testimonials />
         <CTASection />
       </main>
