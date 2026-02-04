@@ -195,25 +195,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
                                         </div>
                                     </div>
                                 </div>
-
-                                <div className="text-right">
-                                    <div className="text-sm text-gray-500 mb-1">From</div>
-                                    {tour.discount_price ? (
-                                        <>
-                                            <div className="text-3xl font-bold text-cyan-600">
-                                                ${tour.discount_price}
-                                            </div>
-                                            <div className="text-sm text-gray-400 line-through">
-                                                ${tour.price}
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <div className="text-3xl font-bold text-cyan-600">
-                                            ${tour.price}
-                                        </div>
-                                    )}
-                                    <div className="text-sm text-gray-500">{tour.currency} per person</div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -387,24 +368,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
                                         <div>
                                             <div className="text-sm text-gray-500 mb-1">Tour Type</div>
                                             <div className="font-semibold text-gray-900 capitalize">{tour.tour_type}</div>
-                                        </div>
-                                        <div className="pt-4 border-t">
-                                            <div className="text-sm text-gray-500 mb-1">Price</div>
-                                            {tour.discount_price ? (
-                                                <>
-                                                    <div className="text-2xl font-bold text-cyan-600">
-                                                        ${tour.discount_price}
-                                                    </div>
-                                                    <div className="text-sm text-gray-400 line-through">
-                                                        ${tour.price}
-                                                    </div>
-                                                </>
-                                            ) : (
-                                                <div className="text-2xl font-bold text-cyan-600">
-                                                    ${tour.price}
-                                                </div>
-                                            )}
-                                            <div className="text-sm text-gray-500">{tour.currency} per person</div>
                                         </div>
                                         <button
                                             className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200 mt-4"

@@ -5,7 +5,7 @@ export default function HeroSection() {
     return (
         <section className="relative h-screen w-full">
             <Image
-                src="/hero.jpg"
+                src="/hero.png"
                 alt="Himalayan Mountains"
                 fill
                 className="object-cover"

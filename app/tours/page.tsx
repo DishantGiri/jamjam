@@ -60,10 +60,8 @@ export default function ToursPage() {
             moderate: false,
             challenging: false,
             extreme: false
-        },
-        maxPrice: 5000
+        }
     });
-    const [sortBy, setSortBy] = useState<'price-low' | 'price-high'>('price-low');
 
     useEffect(() => {
         const fetchTours = async () => {
@@ -119,27 +117,8 @@ export default function ToursPage() {
             });
         }
 
-        result = result.filter(tour => {
-            const price = tour.discount_price || tour.price;
-            return price <= filters.maxPrice;
-        });
-
-        if (sortBy === 'price-low') {
-            result.sort((a, b) => {
-                const priceA = a.discount_price || a.price;
-                const priceB = b.discount_price || b.price;
-                return priceA - priceB;
-            });
-        } else if (sortBy === 'price-high') {
-            result.sort((a, b) => {
-                const priceA = a.discount_price || a.price;
-                const priceB = b.discount_price || b.price;
-                return priceB - priceA;
-            });
-        }
-
         setFilteredTours(result);
-    }, [filters, sortBy, tours]);
+    }, [filters, tours]);
 
     const handleDifficultyChange = (diff: 'easy' | 'moderate' | 'challenging' | 'extreme') => {
         setFilters(prev => ({
@@ -234,21 +213,6 @@ export default function ToursPage() {
                                     ))}
                                 </div>
                             </div>
-
-                            <div>
-                                <h3 className="font-semibold text-sm text-gray-900 mb-3">
-                                    Price Range: $0 - ${filters.maxPrice}
-                                </h3>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="10000"
-                                    step="100"
-                                    value={filters.maxPrice}
-                                    onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: parseInt(e.target.value) }))}
-                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#2C5F7D]"
-                                />
-                            </div>
                         </div>
                     </div>
 
@@ -259,18 +223,6 @@ export default function ToursPage() {
                                 Showing <span className="font-semibold text-gray-900">{filteredTours.length}</span> of{' '}
                                 <span className="font-semibold text-gray-900">{tours.length}</span> tours
                             </p>
-
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-500">Sort by:</span>
-                                <select
-                                    value={sortBy}
-                                    onChange={(e) => setSortBy(e.target.value as any)}
-                                    className="text-sm font-medium bg-gray-50 border-none focus:ring-0 cursor-pointer text-gray-900"
-                                >
-                                    <option value="price-low">Price: Low to High</option>
-                                    <option value="price-high">Price: High to Low</option>
-                                </select>
-                            </div>
                         </div>
 
                         {loading && (
@@ -286,8 +238,7 @@ export default function ToursPage() {
                                     onClick={() => setFilters({
                                         featuredOnly: false,
                                         popularOnly: false,
-                                        difficulty: { easy: false, moderate: false, challenging: false, extreme: false },
-                                        maxPrice: 10000
+                                        difficulty: { easy: false, moderate: false, challenging: false, extreme: false }
                                     })}
                                     className="mt-4 text-[#2C5F7D] font-medium hover:underline"
                                 >
@@ -363,16 +314,7 @@ export default function ToursPage() {
                                             </span>
                                         </div>
 
-                                        <div className="flex items-end justify-between pt-3 border-t border-gray-100">
-                                            <div>
-                                                <p className="text-[10px] text-gray-500 mb-1">From</p>
-                                                <div className="text-lg font-bold text-[#2C5F7D]">
-                                                    {tour.currency} ${tour.discount_price || tour.price}
-                                                </div>
-                                                {tour.discount_price && (
-                                                    <p className="text-xs text-gray-400 line-through">${tour.price}</p>
-                                                )}
-                                            </div>
+                                        <div className="flex items-end justify-end pt-3 border-t border-gray-100">
                                             <span className="text-sm font-medium text-[#2C5F7D] group-hover:underline">
                                                 View Details
                                             </span>

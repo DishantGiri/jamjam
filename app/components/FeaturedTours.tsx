@@ -186,18 +186,7 @@ export default function FeaturedTours() {
                                                 </span>
                                             </div>
 
-                                            <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
-                                                <div>
-                                                    <p className="text-xs text-gray-400 mb-0.5">From</p>
-                                                    <div className="text-xl font-bold text-[#2C5F7D]">
-                                                        {tour.currency} {tour.price}
-                                                    </div>
-                                                    {tour.discount_price && (
-                                                        <span className="text-xs text-gray-400 line-through">
-                                                            {tour.currency} {tour.discount_price}
-                                                        </span>
-                                                    )}
-                                                </div>
+                                            <div className="flex items-center justify-end mt-auto pt-4 border-t border-gray-50">
                                                 <button className="bg-[#2C5F7D] hover:bg-[#244f68] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                                                     View Details
                                                 </button>

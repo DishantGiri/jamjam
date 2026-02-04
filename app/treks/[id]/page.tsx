@@ -40,7 +40,7 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                             if (typeof item === 'string' && (item.startsWith('[') || item.startsWith('"['))) {
                                 let current: any = item;
                                 let maxAttempts = 10;
-                                
+
                                 while (maxAttempts > 0 && typeof current === 'string') {
                                     try {
                                         const parsed = JSON.parse(current);
@@ -58,7 +58,7 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                             }
                             return item;
                         });
-                    } 
+                    }
                     // If it's a string, parse it
                     else if (typeof foundTrek.trek_days === 'string') {
                         let current: any = foundTrek.trek_days;
@@ -205,14 +205,6 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                             </div>
                                         )}
                                     </div>
-                                </div>
-
-                                <div className="text-right">
-                                    <div className="text-sm text-gray-500 mb-1">From</div>
-                                    <div className="text-3xl font-bold text-cyan-600">
-                                        ${trek.price}
-                                    </div>
-                                    <div className="text-sm text-gray-500">{trek.currency} per person</div>
                                 </div>
                             </div>
                         </div>
@@ -368,13 +360,6 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                                 <div className="font-semibold text-gray-900">{trek.distance_km} km</div>
                                             </div>
                                         )}
-                                        <div className="pt-4 border-t">
-                                            <div className="text-sm text-gray-500 mb-1">Price</div>
-                                            <div className="text-2xl font-bold text-cyan-600">
-                                                ${trek.price}
-                                            </div>
-                                            <div className="text-sm text-gray-500">{trek.currency} per person</div>
-                                        </div>
                                         <button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200 mt-4" onClick={() => setShowContactModal(true)}>
                                             Book Now
                                         </button>

@@ -339,8 +339,6 @@ function CreateTrekModal({ onClose, onSuccess }: ModalProps) {
     const [formData, setFormData] = useState({
         title: '',
         location: '',
-        price: '',
-        currency: 'USD',
         duration: '',
         difficulty: 'Moderate',
         type: 'trek',
@@ -452,29 +450,7 @@ function CreateTrekModal({ onClose, onSuccess }: ModalProps) {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
-                                <input
-                                    type="number"
-                                    required
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
-                                <select
-                                    value={formData.currency}
-                                    onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                >
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="NPR">NPR</option>
-                                </select>
-                            </div>
+                        <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Duration *</label>
                                 <input
@@ -622,8 +598,6 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
     const [formData, setFormData] = useState({
         title: trek.title || '',
         location: trek.location || '',
-        price: trek.price?.toString() || '',
-        currency: trek.currency || 'USD',
         duration: trek.duration || '',
         difficulty: trek.difficulty || 'Moderate',
         type: trek.type || 'trek',
@@ -816,32 +790,7 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
-                                <input
-                                    type="number"
-                                    required
-                                    min="0"
-                                    step="0.01"
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Currency *</label>
-                                <select
-                                    required
-                                    value={formData.currency}
-                                    onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                                >
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="NPR">NPR</option>
-                                </select>
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Duration *</label>
                                 <input
@@ -1086,8 +1035,6 @@ function CreateActivityModal({ onClose, onSuccess }: ModalProps) {
     const [formData, setFormData] = useState({
         title: '',
         location: '',
-        price: '',
-        currency: 'USD',
         duration: '',
         difficulty: 'Moderate',
         category: 'Adventure',
@@ -1178,29 +1125,7 @@ function CreateActivityModal({ onClose, onSuccess }: ModalProps) {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
-                                <input
-                                    type="number"
-                                    required
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
-                                <select
-                                    value={formData.currency}
-                                    onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                                >
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="NPR">NPR</option>
-                                </select>
-                            </div>
+                        <div className="grid grid-cols-1 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Duration *</label>
                                 <input
@@ -2091,8 +2016,6 @@ function TreksTab() {
                                 <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                                     <span className="truncate">{trek.location}</span>
                                     <span className="hidden sm:inline">•</span>
-                                    <span className="whitespace-nowrap">${trek.price} {trek.currency}</span>
-                                    <span className="hidden sm:inline">•</span>
                                     <span className={`font-medium whitespace-nowrap ${trek.is_active ? 'text-green-600' : 'text-gray-500'}`}>
                                         {trek.is_active ? 'Active' : 'Inactive'}
                                     </span>
@@ -2212,8 +2135,6 @@ function ActivitiesTab() {
                                 <h3 className="text-lg font-bold text-gray-900 mb-2">{activity.title}</h3>
                                 <div className="flex items-center gap-4 text-sm text-gray-600">
                                     <span>{activity.location}</span>
-                                    <span>•</span>
-                                    <span>${activity.price} {activity.currency}</span>
                                     <span>•</span>
                                     <span>{activity.category}</span>
                                 </div>
@@ -2587,9 +2508,6 @@ function ToursTab() {
                                         <span className="px-3 py-1 rounded-full font-medium bg-purple-100 text-purple-700">
                                             {tour.tour_type}
                                         </span>
-                                        <span className="font-semibold text-blue-600">
-                                            {tour.currency} {tour.discount_price || tour.price}
-                                        </span>
                                     </div>
                                 </div>
                                 <div className="flex gap-2 ml-4">
@@ -2623,9 +2541,6 @@ function CreateTourModal({ onClose, onSuccess }: { onClose: () => void; onSucces
         title: '',
         destination: '',
         description: '',
-        price: '',
-        currency: 'USD',
-        discount_price: '',
         duration_days: '',
         duration_nights: '',
         difficulty_level: 'Moderate',
@@ -2731,40 +2646,6 @@ function CreateTourModal({ onClose, onSuccess }: { onClose: () => void; onSucces
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             />
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
-                                <input
-                                    type="number"
-                                    required
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
-                                <select
-                                    value={formData.currency}
-                                    onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                >
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="NPR">NPR</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Discount Price</label>
-                                <input
-                                    type="number"
-                                    value={formData.discount_price}
-                                    onChange={(e) => setFormData({ ...formData, discount_price: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
@@ -2947,9 +2828,6 @@ function EditTourModal({ tour, onClose, onSuccess }: { tour: any; onClose: () =>
         title: tour.title || '',
         destination: tour.destination || '',
         description: tour.description || '',
-        price: tour.price?.toString() || '',
-        currency: tour.currency || 'USD',
-        discount_price: tour.discount_price?.toString() || '',
         duration_days: tour.duration?.days?.toString() || tour.duration_days?.toString() || '',
         duration_nights: tour.duration?.nights?.toString() || tour.duration_nights?.toString() || '',
         difficulty_level: tour.difficulty_level || 'Moderate',
@@ -3062,40 +2940,6 @@ function EditTourModal({ tour, onClose, onSuccess }: { tour: any; onClose: () =>
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             />
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
-                                <input
-                                    type="number"
-                                    required
-                                    value={formData.price}
-                                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Currency</label>
-                                <select
-                                    value={formData.currency}
-                                    onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                >
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                    <option value="NPR">NPR</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Discount Price</label>
-                                <input
-                                    type="number"
-                                    value={formData.discount_price}
-                                    onChange={(e) => setFormData({ ...formData, discount_price: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                />
-                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">

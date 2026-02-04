@@ -24,11 +24,8 @@ export default function TreksPage() {
             easy: false,
             moderate: false,
             hard: false
-        },
-        maxPrice: 3000
+        }
     });
-
-    const [sortBy, setSortBy] = useState<'price-low' | 'price-high'>('price-low');
 
     useEffect(() => {
         const fetchTreks = async () => {
@@ -87,18 +84,8 @@ export default function TreksPage() {
             });
         }
 
-        // 4. Filter by Price
-        result = result.filter(trek => trek.price <= filters.maxPrice);
-
-        // 5. Apply Sorting
-        if (sortBy === 'price-low') {
-            result.sort((a, b) => a.price - b.price);
-        } else if (sortBy === 'price-high') {
-            result.sort((a, b) => b.price - a.price);
-        }
-
         setFilteredTreks(result);
-    }, [filters, sortBy, treks]);
+    }, [filters, treks]);
 
     const handleTypeChange = (type: 'trek' | 'package') => {
         setFilters(prev => ({
@@ -201,23 +188,6 @@ export default function TreksPage() {
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Price Range */}
-                            <div>
-                                <h3 className="font-semibold text-sm text-gray-900 mb-4">
-                                    Price Range: $0 - ${filters.maxPrice}
-                                </h3>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="5000"
-                                    step="100"
-                                    value={filters.maxPrice}
-                                    onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: parseInt(e.target.value) }))
-                                    }
-                                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#2C5F7D]"
-                                />
-                            </div>
                         </div>
                     </div>
 
@@ -228,18 +198,6 @@ export default function TreksPage() {
                             <p className="text-sm text-gray-500">
                                 Showing <span className="font-semibold text-gray-900">{filteredTreks.length}</span> of {treks.length} treks
                             </p>
-
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-500">Sort by:</span>
-                                <select
-                                    value={sortBy}
-                                    onChange={(e) => setSortBy(e.target.value as any)}
-                                    className="text-sm font-medium bg-gray-50 border-none focus:ring-0 cursor-pointer text-gray-900"
-                                >
-                                    <option value="price-low">Price: Low to High</option>
-                                    <option value="price-high">Price: High to Low</option>
-                                </select>
-                            </div>
                         </div>
 
                         {/* Loading State */}
@@ -257,8 +215,7 @@ export default function TreksPage() {
                                     onClick={() => setFilters({
                                         featuredOnly: false,
                                         types: { trek: false, package: false },
-                                        difficulty: { easy: false, moderate: false, hard: false },
-                                        maxPrice: 5000
+                                        difficulty: { easy: false, moderate: false, hard: false }
                                     })}
                                     className="mt-4 text-[#2C5F7D] font-medium hover:underline"
                                 >
@@ -333,13 +290,7 @@ export default function TreksPage() {
                                                 </span>
                                             </div>
 
-                                            <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
-                                                <div>
-                                                    <p className="text-[10px] text-gray-400 uppercase tracking-wide font-medium">From</p>
-                                                    <div className="text-lg font-bold text-[#2C5F7D]">
-                                                        USD ${trek.price}
-                                                    </div>
-                                                </div>
+                                            <div className="flex items-center justify-end mt-auto pt-4 border-t border-gray-50">
                                                 <button className="bg-[#2C5F7D] hover:bg-[#234d66] text-white px-4 py-2 rounded text-xs font-semibold transition-colors">
                                                     View Details
                                                 </button>

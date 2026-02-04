@@ -129,13 +129,7 @@ export default function Activities() {
                                             </span>
                                         </div>
 
-                                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
-                                            <div>
-                                                <p className="text-xs text-gray-400 mb-0.5">From</p>
-                                                <div className="text-xl font-bold text-[#2C5F7D]">
-                                                    ${activity.price}
-                                                </div>
-                                            </div>
+                                        <div className="flex items-end justify-end mt-auto pt-4 border-t border-gray-50">
                                             <button className="bg-[#2C5F7D] hover:bg-[#244f68] text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
                                                 View Details
                                             </button>

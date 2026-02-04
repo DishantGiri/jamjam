@@ -221,14 +221,8 @@ export default function ActivitiesPage() {
                                             </p>
                                         )}
 
-                                        {/* Price & Difficulty */}
-                                        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                                            <div>
-                                                <span className="text-xl font-bold text-cyan-600">
-                                                    ${activity.price}
-                                                </span>
-                                                <span className="text-xs text-gray-500"> /person</span>
-                                            </div>
+                                        {/* Difficulty */}
+                                        <div className="flex items-center justify-end pt-3 border-t border-gray-100">
                                             <span className={`px-2.5 py-1 rounded text-xs font-medium ${getDifficultyColor(activity.difficulty)}`}>
                                                 {activity.difficulty}
                                             </span>
