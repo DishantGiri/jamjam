@@ -752,38 +752,13 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
             console.log('trekDays JSON:', JSON.stringify(trekDays));
             formDataToSend.append('trek_days', JSON.stringify(trekDays));
 
-            // Send existing images to preserve (images that weren't removed by admin)
-            // Send as keep_images[] so backend knows which images to keep
-            if (existingImages.length > 0) {
-                console.log('Existing images to preserve:', existingImages);
-                existingImages.forEach((imgUrl) => {
-                    formDataToSend.append('keep_images[]', imgUrl);
-                });
-            }
-
             // Only append NEW images (File objects), not existing URLs
-            console.log('=== IMAGES DEBUG ===');
-            console.log('Existing images to keep:', existingImages.length);
-            console.log('Total new images to upload:', images.length);
-
-            // Only send images[] if there are new images to upload
-            if (images.length > 0) {
-                images.forEach((image, index) => {
-                    console.log(`Image ${index}:`, {
-                        name: image instanceof File ? image.name : 'NOT A FILE',
-                        type: image instanceof File ? image.type : typeof image,
-                        size: image instanceof File ? image.size : 'N/A',
-                        isFile: image instanceof File
-                    });
-                    if (image instanceof File) {
-                        formDataToSend.append('images[]', image);
-                        console.log(`✓ Appended image ${index} to FormData:`, image.name);
-                    } else {
-                        console.error(`✗ Skipped image ${index} - not a File object:`, image);
-                    }
-                });
-            }
-            console.log('=== END DEBUG ===');
+            // Backend will preserve existing images automatically (same as tours)
+            images.forEach((image) => {
+                if (image instanceof File) {
+                    formDataToSend.append('images[]', image);
+                }
+            });
 
             await updateTrek(token, trek.id, formDataToSend);
             alert('Trek updated successfully!');

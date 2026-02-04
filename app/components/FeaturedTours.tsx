@@ -10,20 +10,33 @@ interface Tour {
     title: string;
     destination: string;
     description?: string;
-    featured_image_url?: string;
+    featured_image?: string;
+    gallery_images?: string[];
     price: number;
     currency: string;
     discount_price?: number;
-    duration_days: number;
-    duration_nights: number;
+    has_discount?: boolean;
+    duration: {
+        days: number;
+        nights: number;
+        formatted: string;
+    };
     difficulty_level: string;
-    max_group_size: number;
-    min_group_size: number;
+    group_size: {
+        min: number;
+        max: number;
+    };
     tour_type: string;
-    available_slots: number;
-    is_featured: boolean;
-    is_popular: boolean;
-    is_active: boolean;
+    status: {
+        is_active: boolean;
+        is_featured: boolean;
+        is_popular: boolean;
+    };
+    booking: {
+        available_slots: number;
+        instant_booking: boolean;
+    };
+    slug: string;
 }
 
 export default function FeaturedTours() {
@@ -33,11 +46,18 @@ export default function FeaturedTours() {
     useEffect(() => {
         const fetchTours = async () => {
             try {
-                const response = await fetch('http://161.97.167.73:8001/api/tours?is_featured=1&is_active=1');
+                // Fetch active tours (remove is_featured filter since no tours are marked as featured yet)
+                const response = await fetch('http://161.97.167.73:8001/api/tours?is_active=1');
                 const data = await response.json();
 
+                console.log('Tours API Response:', data); // Debug log
+
                 let toursData = [];
-                if (Array.isArray(data)) {
+                if (data.success && data.data && Array.isArray(data.data.tours)) {
+                    toursData = data.data.tours;
+                } else if (data.success && data.data && Array.isArray(data.data)) {
+                    toursData = data.data;
+                } else if (Array.isArray(data)) {
                     toursData = data;
                 } else if (data && Array.isArray(data.data)) {
                     toursData = data.data;
@@ -45,6 +65,7 @@ export default function FeaturedTours() {
                     toursData = data.tours || data.items || [];
                 }
 
+                console.log('Parsed tours data:', toursData); // Debug log
                 setTours(toursData.slice(0, 3));
             } catch (error) {
                 console.error('Error fetching tours:', error);
@@ -100,9 +121,17 @@ export default function FeaturedTours() {
                                         className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer block group flex flex-col h-full"
                                     >
                                         <div className="relative h-56 bg-gray-100">
-                                            {tour.featured_image_url ? (
+                                            {tour.featured_image ? (
                                                 <Image
-                                                    src={tour.featured_image_url}
+                                                    src={tour.featured_image}
+                                                    alt={tour.title}
+                                                    fill
+                                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                                    unoptimized
+                                                />
+                                            ) : tour.gallery_images && tour.gallery_images.length > 0 ? (
+                                                <Image
+                                                    src={tour.gallery_images[0]}
                                                     alt={tour.title}
                                                     fill
                                                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -113,11 +142,13 @@ export default function FeaturedTours() {
                                                     <ImageIcon className="w-12 h-12" strokeWidth={1.5} />
                                                 </div>
                                             )}
-                                            <div className="absolute top-4 right-4">
-                                                <span className="bg-orange-400 text-white px-3 py-1 rounded text-xs font-semibold shadow-sm">
-                                                    Featured
-                                                </span>
-                                            </div>
+                                            {tour.status.is_featured && (
+                                                <div className="absolute top-4 right-4">
+                                                    <span className="bg-orange-400 text-white px-3 py-1 rounded text-xs font-semibold shadow-sm">
+                                                        Featured
+                                                    </span>
+                                                </div>
+                                            )}
                                             <div className="absolute bottom-4 left-4">
                                                 <span className="flex items-center text-white text-sm font-medium drop-shadow-md">
                                                     <MapPin className="w-4 h-4 mr-1" />
@@ -135,11 +166,11 @@ export default function FeaturedTours() {
                                                 <div className="flex items-center gap-6">
                                                     <div className="flex items-center gap-1.5">
                                                         <Clock className="w-4 h-4" />
-                                                        {tour.duration_days}D/{tour.duration_nights}N
+                                                        {tour.duration.days}D/{tour.duration.nights}N
                                                     </div>
                                                     <div className="flex items-center gap-1.5">
                                                         <Users className="w-4 h-4" />
-                                                        {tour.min_group_size}-{tour.max_group_size}
+                                                        {tour.group_size.min}-{tour.group_size.max}
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,11 +189,11 @@ export default function FeaturedTours() {
                                                 <div>
                                                     <p className="text-xs text-gray-400 mb-0.5">From</p>
                                                     <div className="text-xl font-bold text-[#2C5F7D]">
-                                                        {tour.currency}
+                                                        {tour.currency} {tour.price}
                                                     </div>
                                                     {tour.discount_price && (
                                                         <span className="text-xs text-gray-400 line-through">
-
+                                                            {tour.currency} {tour.discount_price}
                                                         </span>
                                                     )}
                                                 </div>
