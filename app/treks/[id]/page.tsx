@@ -37,23 +37,35 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                     // If it's an array, check if items need parsing
                     if (Array.isArray(foundTrek.trek_days)) {
                         foundTrek.trek_days = foundTrek.trek_days.map((item: any) => {
-                            if (typeof item === 'string' && (item.startsWith('[') || item.startsWith('"['))) {
+                            if (typeof item === 'string') {
                                 let current: any = item;
                                 let maxAttempts = 10;
 
-                                while (maxAttempts > 0 && typeof current === 'string') {
-                                    try {
-                                        const parsed = JSON.parse(current);
-                                        if (Array.isArray(parsed)) {
-                                            current = parsed.length > 0 ? parsed[0] : '';
-                                        } else {
-                                            current = parsed;
+                                // Try to parse if it looks like JSON
+                                if (current.startsWith('[') || current.startsWith('\"[') || current.startsWith('\\\"')) {
+                                    while (maxAttempts > 0 && typeof current === 'string') {
+                                        try {
+                                            const parsed = JSON.parse(current);
+                                            if (Array.isArray(parsed)) {
+                                                current = parsed.length > 0 ? parsed[0] : '';
+                                            } else {
+                                                current = parsed;
+                                            }
+                                            maxAttempts--;
+                                        } catch (e) {
+                                            break;
                                         }
-                                        maxAttempts--;
-                                    } catch (e) {
-                                        break;
                                     }
                                 }
+
+                                // Clean up any remaining quotes and brackets
+                                if (typeof current === 'string') {
+                                    current = current
+                                        .replace(/^["'\[\]\\]+|["'\[\]\\]+$/g, '')
+                                        .replace(/\\"/g, '"')
+                                        .trim();
+                                }
+
                                 return current;
                             }
                             return item;
@@ -309,26 +321,41 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                             {trek.trek_days.map((day, index: number) => {
                                                 // Parse day if it's still a string
                                                 let displayDay = day;
-                                                if (typeof day === 'string' && (day.startsWith('[') || day.startsWith('"['))) {
-                                                    try {
-                                                        let parsed = day;
-                                                        let attempts = 0;
-                                                        while (typeof parsed === 'string' && attempts < 10) {
-                                                            parsed = JSON.parse(parsed);
-                                                            attempts++;
+                                                if (typeof day === 'string') {
+                                                    // Remove extra quotes and brackets
+                                                    let cleaned = day;
+
+                                                    // If it starts with brackets or escaped quotes, parse it
+                                                    if (cleaned.startsWith('[') || cleaned.startsWith('\"[') || cleaned.startsWith('\\\"')) {
+                                                        try {
+                                                            let parsed = cleaned;
+                                                            let attempts = 0;
+                                                            while (typeof parsed === 'string' && attempts < 10) {
+                                                                parsed = JSON.parse(parsed);
+                                                                attempts++;
+                                                            }
+                                                            displayDay = Array.isArray(parsed) ? parsed[0] : parsed;
+                                                        } catch (e) {
+                                                            // If parsing fails, just clean up the string
+                                                            displayDay = cleaned;
                                                         }
-                                                        displayDay = Array.isArray(parsed) ? parsed[0] : parsed;
-                                                    } catch (e) {
-                                                        displayDay = day;
+                                                    }
+
+                                                    // Final cleanup: remove any remaining quotes and brackets
+                                                    if (typeof displayDay === 'string') {
+                                                        displayDay = displayDay
+                                                            .replace(/^["'\[\]\\]+|["'\[\]\\]+$/g, '') // Remove leading/trailing quotes, brackets, backslashes
+                                                            .replace(/\\"/g, '"') // Unescape quotes
+                                                            .trim();
                                                     }
                                                 }
 
                                                 return (
                                                     <div key={index} className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                                                        <div className="flex-shrink-0 w-8 h-8 bg-cyan-100 text-cyan-700 rounded-full flex items-center justify-center font-semibold text-sm">
-                                                            {index + 1}
+                                                        <div className="flex-shrink-0 min-w-[80px] px-3 py-1 bg-cyan-100 text-cyan-700 rounded-lg font-semibold text-sm">
+                                                            Day {index + 1}
                                                         </div>
-                                                        <p className="text-gray-700 pt-1">{displayDay}</p>
+                                                        <p className="text-gray-700 pt-1 flex-1">{displayDay}</p>
                                                     </div>
                                                 );
                                             })}
