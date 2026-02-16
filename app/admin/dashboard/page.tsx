@@ -349,11 +349,11 @@ function CreateTrekModal({ onClose, onSuccess }: ModalProps) {
         is_active: true
     });
     const [images, setImages] = useState<File[]>([]);
-    const [trekDays, setTrekDays] = useState<string[]>(['Day 1: ']);
+    const [trekDays, setTrekDays] = useState<string[]>(['']);
     const [submitting, setSubmitting] = useState(false);
 
     const addTrekDay = () => {
-        setTrekDays([...trekDays, `Day ${trekDays.length + 1}: `]);
+        setTrekDays([...trekDays, '']);
     };
 
     const removeTrekDay = (index: number) => {
@@ -489,6 +489,44 @@ function CreateTrekModal({ onClose, onSuccess }: ModalProps) {
                             </div>
                         </div>
 
+                        {/* Trek Days */}
+                        <div>
+                            <div className="flex items-center justify-between mb-2">
+                                <label className="block text-sm font-medium text-gray-700">Trek Days / Itinerary *</label>
+                                <button
+                                    type="button"
+                                    onClick={addTrekDay}
+                                    className="text-cyan-500 hover:text-cyan-600 text-sm font-medium flex items-center gap-1"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    Add Day
+                                </button>
+                            </div>
+                            <div className="space-y-2">
+                                {trekDays.map((day, index) => (
+                                    <div key={index} className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            required
+                                            value={day}
+                                            onChange={(e) => updateTrekDay(index, e.target.value)}
+                                            placeholder={`Day ${index + 1}: Description`}
+                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+                                        />
+                                        {trekDays.length > 1 && (
+                                            <button
+                                                type="button"
+                                                onClick={() => removeTrekDay(index)}
+                                                className="px-3 py-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                            >
+                                                <X className="w-5 h-5" />
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
                             <textarea
@@ -617,7 +655,7 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
     const parseTrekDays = (days: any): string[] => {
         console.log('Parsing trek_days, input:', days, 'type:', typeof days);
 
-        if (!days) return ['Day 1: '];
+        if (!days) return [''];
 
         // If it's already an array, check if items need parsing
         if (Array.isArray(days)) {
@@ -649,7 +687,7 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
             });
 
             console.log('Parsed array items:', parsedArray);
-            return parsedArray.length > 0 ? parsedArray : ['Day 1: '];
+            return parsedArray.length > 0 ? parsedArray : [''];
         }
 
         // If it's a string, try to parse it recursively (might be over-escaped JSON)
@@ -664,7 +702,7 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
                     if (Array.isArray(parsed)) {
                         // If we got an array, return it
                         console.log('Got array after parsing:', parsed);
-                        return parsed.length > 0 ? parsed : ['Day 1: '];
+                        return parsed.length > 0 ? parsed : [''];
                     }
                     // If parsed but not an array, continue parsing
                     current = parsed;
@@ -675,21 +713,21 @@ function EditTrekModal({ trek, onClose, onSuccess }: EditTrekModalProps) {
                     if (typeof current === 'string' && current.trim()) {
                         return [current];
                     }
-                    return ['Day 1: '];
+                    return [''];
                 }
             }
 
             // If we exhausted attempts or got something weird
             console.log('Exhausted attempts, final result:', current);
-            return Array.isArray(current) ? current : ['Day 1: '];
+            return Array.isArray(current) ? current : [''];
         }
 
-        return ['Day 1: '];
+        return [''];
     }; const [trekDays, setTrekDays] = useState<string[]>(parseTrekDays(trek.trek_days));
     const [submitting, setSubmitting] = useState(false);
 
     const addTrekDay = () => {
-        setTrekDays([...trekDays, `Day ${trekDays.length + 1}: `]);
+        setTrekDays([...trekDays, '']);
     };
 
     const removeTrekDay = (index: number) => {

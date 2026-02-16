@@ -204,14 +204,22 @@ export const getReviewStats = async () => {
 
 // Blogs API
 export const getBlogs = async (params?: { is_published?: boolean; per_page?: number }) => {
-    const queryParams = new URLSearchParams();
-    if (params?.is_published !== undefined) queryParams.append('is_published', String(params.is_published));
-    if (params?.per_page) queryParams.append('per_page', String(params.per_page));
+    try {
+        const queryParams = new URLSearchParams();
+        if (params?.is_published !== undefined) queryParams.append('is_published', String(params.is_published));
+        if (params?.per_page) queryParams.append('per_page', String(params.per_page));
 
-    const url = `${API_BASE_URL}/blogs${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch blogs');
-    return response.json();
+        const url = `${API_BASE_URL}/blogs${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.warn('Blogs API returned error status:', response.status);
+            return { data: [] };
+        }
+        return response.json();
+    } catch (error) {
+        console.warn('Failed to fetch blogs:', error);
+        return { data: [] };
+    }
 };
 
 export const getBlog = async (slug: string) => {
