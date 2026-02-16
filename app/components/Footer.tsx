@@ -45,7 +45,7 @@ export default function Footer() {
                         <ul className="space-y-2 text-sky-100 text-sm">
                             <li className="flex items-start gap-2">
                                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                                Kathmandu, Kathmandu, Nepal
+                                Lakeside, Pokhara, Nepal
                             </li>
                             <li className="flex items-center gap-2">
                                 <Phone className="w-5 h-5 flex-shrink-0" />
