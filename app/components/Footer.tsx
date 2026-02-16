@@ -12,7 +12,7 @@ export default function Footer() {
                         <div className="flex items-center mb-4">
                             <div className="relative w-20 h-20">
                                 <Image
-                                    src="/logo.png"
+                                    src="/log.png"
                                     alt="JamJam Trek Logo"
                                     fill
                                     className="object-cover"
@@ -49,11 +49,11 @@ export default function Footer() {
                             </li>
                             <li className="flex items-center gap-2">
                                 <Phone className="w-5 h-5 flex-shrink-0" />
-                                +977 1234567890
+                                +977 984-6516188
                             </li>
                             <li className="flex items-center gap-2">
                                 <Mail className="w-5 h-5 flex-shrink-0" />
-                                info@jamjamtrek.com
+                                jamjamtreks@gmail.com
                             </li>
                         </ul>
                     </div>
@@ -65,7 +65,7 @@ export default function Footer() {
                             <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-cyan-400 hover:scale-110 rounded-lg flex items-center justify-center transition-all duration-200 cursor-pointer">
                                 <Facebook className="w-5 h-5" />
                             </a>
-                            <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-cyan-400 hover:scale-110 rounded-lg flex items-center justify-center transition-all duration-200 cursor-pointer">
+                            <a href="https://www.instagram.com/jamjamtreksnepal/" className="w-10 h-10 bg-gray-700 hover:bg-cyan-400 hover:scale-110 rounded-lg flex items-center justify-center transition-all duration-200 cursor-pointer">
                                 <Instagram className="w-5 h-5" />
                             </a>
                         </div>

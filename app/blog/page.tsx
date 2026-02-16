@@ -15,7 +15,7 @@ export default function BlogPage() {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await getBlogs({ is_published: true });
+                const response = await getBlogs();
                 // Handle multiple response formats
                 let blogData = [];
                 if (Array.isArray(response)) {
@@ -27,6 +27,7 @@ export default function BlogPage() {
                 }
 
                 setBlogs(blogData);
+                console.log('Loaded blogs:', blogData.map((b: any) => ({ id: b.id, title: b.title, slug: b.slug })));
             } catch (error) {
                 console.error('Error fetching blogs:', error);
                 setBlogs([]);

@@ -1679,7 +1679,7 @@ function EditBlogModal({ blog, onClose, onSuccess }: { blog: any; onClose: () =>
             formDataToSend.append('content', JSON.stringify(contentSections));
 
             if (featuredImage) {
-                formDataToSend.append('image', featuredImage);
+                formDataToSend.append('image', featuredImage, featuredImage.name);
             }
 
             await updateBlog(token, blog.id, formDataToSend);

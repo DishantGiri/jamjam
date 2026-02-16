@@ -424,7 +424,7 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                             <div className="space-y-4">
                                 {/* Phone */}
                                 <a
-                                    href="tel:+9779851234567"
+                                    href="tel:+9779846516188"
                                     className="flex items-center gap-4 p-4 rounded-lg border-2 border-gray-200 hover:border-cyan-500 hover:bg-cyan-50 transition-all duration-200 group"
                                 >
                                     <div className="bg-cyan-100 p-3 rounded-full group-hover:bg-cyan-500 transition-colors">
@@ -432,13 +432,13 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                     </div>
                                     <div>
                                         <div className="font-semibold text-gray-900">Call Us</div>
-                                        <div className="text-gray-600 text-sm">+977 985-1234567</div>
+                                        <div className="text-gray-600 text-sm">+977 984-6516188</div>
                                     </div>
                                 </a>
 
                                 {/* Email */}
                                 <a
-                                    href="mailto:info@jamjamtrek.com"
+                                    href="mailto:jamjamtreks@gmail.com"
                                     className="flex items-center gap-4 p-4 rounded-lg border-2 border-gray-200 hover:border-cyan-500 hover:bg-cyan-50 transition-all duration-200 group"
                                 >
                                     <div className="bg-cyan-100 p-3 rounded-full group-hover:bg-cyan-500 transition-colors">
@@ -446,13 +446,13 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                     </div>
                                     <div>
                                         <div className="font-semibold text-gray-900">Email Us</div>
-                                        <div className="text-gray-600 text-sm">info@jamjamtrek.com</div>
+                                        <div className="text-gray-600 text-sm">jamjamtreks@gmail.com</div>
                                     </div>
                                 </a>
 
                                 {/* WhatsApp */}
                                 <a
-                                    href="https://wa.me/9779851234567"
+                                    href="https://wa.me/9779846516188"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-4 p-4 rounded-lg border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 transition-all duration-200 group"

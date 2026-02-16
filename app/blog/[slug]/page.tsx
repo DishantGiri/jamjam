@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, use } from 'react';
-import { getBlog, type Blog } from '@/lib/api';
+import { getBlog, getBlogs, type Blog } from '@/lib/api';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
@@ -15,11 +15,27 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
 
     useEffect(() => {
         const fetchBlog = async () => {
+            console.log('Fetching blog with slug:', resolvedParams.slug);
             try {
-                const response = await getBlog(resolvedParams.slug);
-                // Handle API response structure
-                const blogData = response.data || response;
-                setBlog(blogData);
+                // Backend doesn't support fetching by slug, so fetch all blogs and filter
+                const response = await getBlogs();
+                console.log('All blogs response:', response);
+
+                // Handle different API response structures
+                let allBlogs = [];
+                if (Array.isArray(response)) {
+                    allBlogs = response;
+                } else if (response && Array.isArray(response.data)) {
+                    allBlogs = response.data;
+                } else if (response && response.data && typeof response.data === 'object') {
+                    allBlogs = response.data.blogs || response.data.items || [];
+                }
+
+                // Find the blog with matching slug
+                const blogData = allBlogs.find((b: any) => b.slug === resolvedParams.slug);
+
+                console.log('Found blog:', blogData);
+                setBlog(blogData || null);
             } catch (error) {
                 console.error('Error fetching blog:', error);
                 setBlog(null);
@@ -32,8 +48,14 @@ export default function BlogDetailPage({ params }: { params: Promise<{ slug: str
     }, [resolvedParams.slug]);
 
     const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        if (!dateString) return 'Date not available';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return 'Date not available';
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        } catch (error) {
+            return 'Date not available';
+        }
     };
 
     return (

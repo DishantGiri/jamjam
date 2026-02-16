@@ -223,9 +223,17 @@ export const getBlogs = async (params?: { is_published?: boolean; per_page?: num
 };
 
 export const getBlog = async (slug: string) => {
-    const response = await fetch(`${API_BASE_URL}/blogs/${slug}`);
-    if (!response.ok) throw new Error('Failed to fetch blog');
-    return response.json();
+    try {
+        const response = await fetch(`${API_BASE_URL}/blogs/${slug}`);
+        if (!response.ok) {
+            console.warn(`Blog not found for slug: ${slug}, status: ${response.status}`);
+            return { data: null };
+        }
+        return response.json();
+    } catch (error) {
+        console.error('Failed to fetch blog:', error);
+        return { data: null };
+    }
 };
 
 export const getTotalBlogs = async () => {
