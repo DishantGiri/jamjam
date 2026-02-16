@@ -67,7 +67,7 @@ export default function AdminLogin() {
                 <div className="text-center mb-6">
                     <div className="flex justify-center mb-4">
                         <Image
-                            src="/logo.png"
+                            src="/log.png"
                             alt="JamJam Trek"
                             width={150}
                             height={50}
