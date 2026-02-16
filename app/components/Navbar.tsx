@@ -28,7 +28,7 @@ export default function Navbar() {
                 <Link href="/" className="flex items-center">
                     <div className="relative w-20 h-20">
                         <Image
-                            src="/logo.png"
+                            src="/log.png"
                             alt="JamJam Trek Logo"
                             fill
                             className="object-cover"
