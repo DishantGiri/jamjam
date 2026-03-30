@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Mountain, Activity, FileText, MessageSquare, LogOut, Star, X, Plus, Edit, Trash2, Plane, MapPin, Clock, Users } from 'lucide-react';
+import { Mountain, Activity, FileText, MessageSquare, LogOut, Star, X, Plus, Edit, Trash2, Plane, MapPin, Clock, Users, ImageIcon, UploadCloud } from 'lucide-react';
 import { verifyAuth as verifyAuthAPI, createTrek, createBlog, updateTrek, deleteTrek, updateBlog, deleteBlog, createTour, updateTour, deleteTour } from '@/lib/api';
+import GalleryTab from './GalleryTab';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-type Tab = 'overview' | 'treks' | 'tours' | 'blogs' | 'reviews';
+type Tab = 'overview' | 'treks' | 'tours' | 'blogs' | 'reviews' | 'gallery';
 
 export default function AdminDashboard() {
     const router = useRouter();
@@ -83,6 +84,7 @@ export default function AdminDashboard() {
         { id: 'tours', label: 'Tours' },
         { id: 'blogs', label: 'Blogs' },
         { id: 'reviews', label: 'Reviews' },
+        { id: 'gallery', label: 'Gallery' },
     ];
 
     return (
@@ -136,6 +138,7 @@ export default function AdminDashboard() {
                 {activeTab === 'tours' && <ToursTab />}
                 {activeTab === 'blogs' && <BlogsTab />}
                 {activeTab === 'reviews' && <ReviewsTab />}
+                {activeTab === 'gallery' && <GalleryTab />}
             </main>
         </div>
     );

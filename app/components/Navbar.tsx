@@ -70,6 +70,18 @@ export default function Navbar() {
                     >
                         Reviews
                     </Link>
+                    <Link
+                        href="/gallery"
+                        className={`transition-colors cursor-pointer ${isActive('/gallery') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                    >
+                        Gallery
+                    </Link>
+                    <Link
+                        href="/legal"
+                        className={`transition-colors cursor-pointer ${isActive('/legal') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                    >
+                        Legal Documents
+                    </Link>
 
                 </div>
 
@@ -121,6 +133,20 @@ export default function Navbar() {
                             className={`block py-2 transition-colors ${isActive('/reviews') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
                         >
                             Reviews
+                        </Link>
+                        <Link
+                            href="/gallery"
+                            onClick={closeMenu}
+                            className={`block py-2 transition-colors ${isActive('/gallery') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        >
+                            Gallery
+                        </Link>
+                        <Link
+                            href="/legal"
+                            onClick={closeMenu}
+                            className={`block py-2 transition-colors ${isActive('/legal') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        >
+                            Legal
                         </Link>
 
                     </div>
