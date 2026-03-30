@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import { Mountain, Activity, FileText, MessageSquare, LogOut, Star, X, Plus, Edit, Trash2, Plane, MapPin, Clock, Users, ImageIcon, UploadCloud } from 'lucide-react';
 import { verifyAuth as verifyAuthAPI, createTrek, createBlog, updateTrek, deleteTrek, updateBlog, deleteBlog, createTour, updateTour, deleteTour } from '@/lib/api';
 import GalleryTab from './GalleryTab';
+import LegalTab from './LegalTab';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-type Tab = 'overview' | 'treks' | 'tours' | 'blogs' | 'reviews' | 'gallery';
+type Tab = 'overview' | 'treks' | 'tours' | 'blogs' | 'reviews' | 'gallery' | 'legal';
 
 export default function AdminDashboard() {
     const router = useRouter();
@@ -85,6 +86,7 @@ export default function AdminDashboard() {
         { id: 'blogs', label: 'Blogs' },
         { id: 'reviews', label: 'Reviews' },
         { id: 'gallery', label: 'Gallery' },
+        { id: 'legal', label: 'Legal Docs' },
     ];
 
     return (
@@ -139,6 +141,7 @@ export default function AdminDashboard() {
                 {activeTab === 'blogs' && <BlogsTab />}
                 {activeTab === 'reviews' && <ReviewsTab />}
                 {activeTab === 'gallery' && <GalleryTab />}
+                {activeTab === 'legal' && <LegalTab />}
             </main>
         </div>
     );

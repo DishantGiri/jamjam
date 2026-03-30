@@ -1,46 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, X, Edit, Trash2, ImageIcon, UploadCloud } from 'lucide-react';
+import { Plus, X, Edit, Trash2, FileBadge, UploadCloud } from 'lucide-react';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// Gallery Tab Component
-export default function GalleryTab() {
-    const [images, setImages] = useState<any[]>([]);
+// Legal Documents Tab Component
+export default function LegalTab() {
+    const [documents, setDocuments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
-    const [editingImage, setEditingImage] = useState<any | null>(null);
+    const [editingDoc, setEditingDoc] = useState<any | null>(null);
 
     // Form state
     const [files, setFiles] = useState<File[]>([]);
-    const [caption, setCaption] = useState('');
+    const [title, setTitle] = useState('');
     const [isActive, setIsActive] = useState(true);
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        fetchGallery();
+        fetchDocuments();
     }, []);
 
-    const fetchGallery = async () => {
+    const fetchDocuments = async () => {
         try {
-            // Remove the duplicate /api/ if NEXT_PUBLIC_API_BASE_URL already contains it
             const baseUrl = API_BASE_URL?.endsWith('/api') ? API_BASE_URL.replace(/\/api$/, '') : API_BASE_URL;
-            const res = await fetch(`${baseUrl}/api/gallery`, {
+            const res = await fetch(`${baseUrl}/api/legal-documents`, {
                 headers: {
                     'Accept': 'application/json'
                 }
             });
 
             if (!res.ok) {
-                console.error('Failed to fetch gallery:', res.status);
+                console.error('Failed to fetch legal documents:', res.status);
                 return;
             }
 
             const data = await res.json();
             if (data.status && data.data) {
-                setImages(data.data);
+                setDocuments(data.data);
             }
         } catch (error) {
-            console.error('Error fetching gallery:', error);
+            console.error('Error fetching legal documents:', error);
         } finally {
             setLoading(false);
         }
@@ -59,14 +58,14 @@ export default function GalleryTab() {
 
         try {
             const formData = new FormData();
-            if (caption) formData.append('caption', caption);
+            if (title) formData.append('title', title);
             formData.append('is_active', isActive ? '1' : '0');
 
             const baseUrl = API_BASE_URL?.endsWith('/api') ? API_BASE_URL.replace(/\/api$/, '') : API_BASE_URL;
-            let url = `${baseUrl}/api/gallery`;
+            let url = `${baseUrl}/api/legal-documents`;
 
-            if (editingImage) {
-                url = `${baseUrl}/api/gallery/${editingImage.id}`;
+            if (editingDoc) {
+                url = `${baseUrl}/api/legal-documents/${editingDoc.id}`;
                 if (files.length > 0) {
                     formData.append('image', files[0]);
                 }
@@ -95,29 +94,29 @@ export default function GalleryTab() {
 
             if (res.ok) {
                 setShowForm(false);
-                setEditingImage(null);
+                setEditingDoc(null);
                 setFiles([]);
-                setCaption('');
+                setTitle('');
                 setIsActive(true);
-                fetchGallery();
+                fetchDocuments();
             } else {
-                console.error('Failed to save gallery items:', responseData);
+                console.error('Failed to save legal document:', responseData);
                 alert(`Error: ${responseData?.message || 'Failed to save items'}`);
             }
         } catch (error) {
-            console.error('Error saving gallery items:', error);
+            console.error('Error saving legal document:', error);
         } finally {
             setSaving(false);
         }
     };
 
     const handleDelete = async (id: number) => {
-        if (!window.confirm('Are you sure you want to delete this image?')) return;
+        if (!window.confirm('Are you sure you want to delete this document?')) return;
 
         const token = localStorage.getItem('authToken');
         try {
             const baseUrl = API_BASE_URL?.endsWith('/api') ? API_BASE_URL.replace(/\/api$/, '') : API_BASE_URL;
-            const res = await fetch(`${baseUrl}/api/gallery/${id}`, {
+            const res = await fetch(`${baseUrl}/api/legal-documents/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -126,87 +125,87 @@ export default function GalleryTab() {
             });
 
             if (res.ok) {
-                fetchGallery();
+                fetchDocuments();
             }
         } catch (error) {
-            console.error('Error deleting image:', error);
+            console.error('Error deleting document:', error);
         }
     };
 
-    const handleEdit = (img: any) => {
-        setEditingImage(img);
-        setCaption(img.caption || '');
-        setIsActive(img.is_active);
+    const handleEdit = (doc: any) => {
+        setEditingDoc(doc);
+        setTitle(doc.title || '');
+        setIsActive(doc.is_active);
         setFiles([]);
         setShowForm(true);
     };
 
     if (loading) {
-        return <div className="text-center py-8">Loading gallery...</div>;
+        return <div className="text-center py-8">Loading legal documents...</div>;
     }
 
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-900">Gallery Management</h2>
-                    <p className="text-gray-500 text-sm mt-1">Upload and manage gallery images</p>
+                    <h2 className="text-xl font-bold text-gray-900">Legal Documents</h2>
+                    <p className="text-gray-500 text-sm mt-1">Upload and manage certifications and legal documents</p>
                 </div>
                 <button
                     onClick={() => {
-                        setEditingImage(null);
-                        setCaption('');
+                        setEditingDoc(null);
+                        setTitle('');
                         setIsActive(true);
                         setFiles([]);
                         setShowForm(!showForm);
                     }}
-                    className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-sm font-medium"
+                    className="flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md text-sm font-medium"
                 >
                     {showForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                    <span className="hidden sm:inline">{showForm ? 'Cancel' : 'Upload Images'}</span>
+                    <span className="hidden sm:inline">{showForm ? 'Cancel' : 'Upload Documents'}</span>
                 </button>
             </div>
 
             {showForm && (
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-4">
-                        {editingImage ? 'Edit Image' : 'Bulk Upload Images'}
+                        {editingDoc ? 'Edit Document' : 'Upload New Documents'}
                     </h3>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                {editingImage ? 'Image (Leave empty to keep current)' : 'Select Images'}
+                                {editingDoc ? 'Image File (Leave empty to keep current)' : 'Select Files (Images/PDFs)'}
                             </label>
                             <input
                                 type="file"
                                 onChange={handleFileChange}
-                                multiple={!editingImage}
-                                accept="image/jpeg,image/png,image/webp"
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
-                                required={!editingImage}
+                                multiple={!editingDoc}
+                                accept="image/jpeg,image/png,image/webp,application/pdf"
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+                                required={!editingDoc}
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Caption</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Document Title</label>
                             <input
                                 type="text"
-                                value={caption}
-                                onChange={(e) => setCaption(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-200"
-                                placeholder={editingImage ? 'Image caption' : 'Caption to apply to ALL images in this batch'}
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+                                placeholder={editingDoc ? 'E.g. Company Registration 2024' : 'Title for the uploaded document(s)'}
                             />
                         </div>
 
                         <div className="flex items-center">
                             <input
                                 type="checkbox"
-                                id="isActive"
+                                id="isActiveDoc"
                                 checked={isActive}
                                 onChange={(e) => setIsActive(e.target.checked)}
-                                className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-gray-300 rounded"
+                                className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
                             />
-                            <label htmlFor="isActive" className="ml-2 block text-sm text-gray-900">
+                            <label htmlFor="isActiveDoc" className="ml-2 block text-sm text-gray-900">
                                 Active (Visible to public)
                             </label>
                         </div>
@@ -221,48 +220,46 @@ export default function GalleryTab() {
                             </button>
                             <button
                                 type="submit"
-                                disabled={saving || (!editingImage && files.length === 0)}
-                                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-lg transition-colors font-medium text-sm disabled:opacity-50"
+                                disabled={saving || (!editingDoc && files.length === 0)}
+                                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white rounded-lg transition-colors font-medium text-sm disabled:opacity-50"
                             >
                                 <UploadCloud className="w-4 h-4" />
-                                {saving ? 'Saving...' : (editingImage ? 'Update' : 'Upload')}
+                                {saving ? 'Saving...' : (editingDoc ? 'Update' : 'Upload')}
                             </button>
                         </div>
                     </form>
                 </div>
             )}
 
-            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
-                {images.map((img) => (
-                    <div key={img.id} className="break-inside-avoid bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+                {documents.map((doc) => (
+                    <div key={doc.id} className="break-inside-avoid bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group">
                         <div className="relative">
                             <img
-                                src={img.image_url}
-                                alt={img.caption || 'Gallery image'}
+                                src={doc.image_url}
+                                alt={doc.title || 'Legal Document'}
                                 className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
                                 loading="lazy"
                             />
-                            {!img.is_active && (
+                            {!doc.is_active && (
                                 <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                                     Hidden
                                 </div>
                             )}
                         </div>
                         <div className="p-3 bg-white relative z-10 border-t border-gray-50">
-                            <p className="text-sm text-gray-600 line-clamp-2" title={img.caption || 'No caption'}>
-                                {img.caption || <span className="italic">No caption</span>}
-                            </p>
+                            <h4 className="font-semibold text-gray-800 text-sm mb-1">{doc.title || 'Untitled Document'}</h4>
                             <div className="flex justify-between items-center mt-3 pt-2 border-t border-gray-50">
                                 <button
-                                    onClick={() => handleEdit(img)}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium"
+                                    onClick={() => handleEdit(doc)}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-teal-600 hover:bg-teal-50 rounded-lg transition-colors font-medium"
                                     title="Edit"
                                 >
                                     <Edit className="w-4 h-4" />
                                     <span>Edit</span>
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(img.id)}
+                                    onClick={() => handleDelete(doc.id)}
                                     className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium"
                                     title="Delete"
                                 >
@@ -274,11 +271,11 @@ export default function GalleryTab() {
                     </div>
                 ))}
             </div>
-            {images.length === 0 && (
+            {documents.length === 0 && (
                 <div className="text-center py-12 bg-white rounded-xl border border-gray-100">
-                    <ImageIcon className="mx-auto h-12 w-12 text-gray-300" />
-                    <h3 className="mt-2 text-sm font-medium text-gray-900">No images</h3>
-                    <p className="mt-1 text-sm text-gray-500">Get started by uploading some images to your gallery.</p>
+                    <FileBadge className="mx-auto h-12 w-12 text-gray-300" />
+                    <h3 className="mt-2 text-sm font-medium text-gray-900">No legal documents</h3>
+                    <p className="mt-1 text-sm text-gray-500">Get started by uploading your company certificates.</p>
                 </div>
             )}
         </div>
