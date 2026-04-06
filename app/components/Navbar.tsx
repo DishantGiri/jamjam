@@ -23,7 +23,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md shadow-sm border-b border-gray-100">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
             <div className="max-w-7xl mx-auto px-6  flex items-center justify-between">
                 <Link href="/" className="flex items-center">
                     <div className="relative w-20 h-20">
@@ -34,7 +34,7 @@ export default function Navbar() {
                             className="object-cover"
                         />
                     </div>
-                    <span className="text-2xl font-bold text-[#2C5F7D] hover:text-[#244f68] transition-colors">
+                    <span className="text-2xl font-bold text-[#1B3B36] hover:text-[#142C28] transition-colors">
                         JamJam Treks
                     </span>
                 </Link>
@@ -42,43 +42,43 @@ export default function Navbar() {
                 <div className="hidden md:flex items-center gap-8 text-lg font-medium">
                     <Link
                         href="/"
-                        className={`transition-colors cursor-pointer ${isActive('/') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        className={`transition-colors cursor-pointer ${isActive('/') ? 'text-[#1B3B36]' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                     >
                         Home
                     </Link>
                     <Link
                         href="/treks"
-                        className={`transition-colors cursor-pointer ${isActive('/treks') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        className={`transition-colors cursor-pointer ${isActive('/treks') ? 'text-[#1B3B36]' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                     >
                         Treks
                     </Link>
                     <Link
                         href="/tours"
-                        className={`transition-colors cursor-pointer ${isActive('/tours') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        className={`transition-colors cursor-pointer ${isActive('/tours') ? 'text-[#1B3B36]' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                     >
                         Tours
                     </Link>
                     <Link
                         href="/blog"
-                        className={`transition-colors cursor-pointer ${isActive('/blog') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        className={`transition-colors cursor-pointer ${isActive('/blog') ? 'text-[#1B3B36]' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                     >
                         Blog
                     </Link>
                     <Link
                         href="/reviews"
-                        className={`transition-colors cursor-pointer ${isActive('/reviews') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        className={`transition-colors cursor-pointer ${isActive('/reviews') ? 'text-[#1B3B36]' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                     >
                         Reviews
                     </Link>
                     <Link
                         href="/gallery"
-                        className={`transition-colors cursor-pointer ${isActive('/gallery') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        className={`transition-colors cursor-pointer ${isActive('/gallery') ? 'text-[#1B3B36]' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                     >
                         Gallery
                     </Link>
                     <Link
                         href="/legal"
-                        className={`transition-colors cursor-pointer ${isActive('/legal') ? 'text-[#2C5F7D]' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                        className={`transition-colors cursor-pointer ${isActive('/legal') ? 'text-[#1B3B36]' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                     >
                         Legal Documents
                     </Link>
@@ -102,49 +102,49 @@ export default function Navbar() {
                         <Link
                             href="/"
                             onClick={closeMenu}
-                            className={`block py-2 transition-colors ${isActive('/') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                            className={`block py-2 transition-colors ${isActive('/') ? 'text-[#1B3B36] font-semibold' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                         >
                             Home
                         </Link>
                         <Link
                             href="/treks"
                             onClick={closeMenu}
-                            className={`block py-2 transition-colors ${isActive('/treks') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                            className={`block py-2 transition-colors ${isActive('/treks') ? 'text-[#1B3B36] font-semibold' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                         >
                             Treks
                         </Link>
                         <Link
                             href="/tours"
                             onClick={closeMenu}
-                            className={`block py-2 transition-colors ${isActive('/tours') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                            className={`block py-2 transition-colors ${isActive('/tours') ? 'text-[#1B3B36] font-semibold' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                         >
                             Tours
                         </Link>
                         <Link
                             href="/blog"
                             onClick={closeMenu}
-                            className={`block py-2 transition-colors ${isActive('/blog') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                            className={`block py-2 transition-colors ${isActive('/blog') ? 'text-[#1B3B36] font-semibold' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                         >
                             Blog
                         </Link>
                         <Link
                             href="/reviews"
                             onClick={closeMenu}
-                            className={`block py-2 transition-colors ${isActive('/reviews') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                            className={`block py-2 transition-colors ${isActive('/reviews') ? 'text-[#1B3B36] font-semibold' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                         >
                             Reviews
                         </Link>
                         <Link
                             href="/gallery"
                             onClick={closeMenu}
-                            className={`block py-2 transition-colors ${isActive('/gallery') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                            className={`block py-2 transition-colors ${isActive('/gallery') ? 'text-[#1B3B36] font-semibold' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                         >
                             Gallery
                         </Link>
                         <Link
                             href="/legal"
                             onClick={closeMenu}
-                            className={`block py-2 transition-colors ${isActive('/legal') ? 'text-[#2C5F7D] font-semibold' : 'text-gray-600 hover:text-[#2C5F7D]'}`}
+                            className={`block py-2 transition-colors ${isActive('/legal') ? 'text-[#1B3B36] font-semibold' : 'text-gray-600 hover:text-[#1B3B36]'}`}
                         >
                             Legal
                         </Link>

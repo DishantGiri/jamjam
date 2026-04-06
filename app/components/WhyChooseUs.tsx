@@ -8,8 +8,8 @@ export default function WhyChooseUs() {
             icon: Shield,
             title: 'Safety First',
             description: 'Your safety is our top priority with experienced guides and comprehensive insurance coverage.',
-            color: 'text-[#2C5F7D]',
-            bgColor: 'bg-[#2C5F7D]/10'
+            color: 'text-[#1B3B36]',
+            bgColor: 'bg-[#1B3B36]/10'
         },
         {
             icon: Users,

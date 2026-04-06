@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function CTASection() {
     return (
-        <section className="bg-[#2C5F7D] py-12 mb-8">
+        <section className="bg-[#1B3B36] py-12 mb-8 w-[70%] mx-auto rounded-2xl">
             <div className="max-w-4xl mx-auto px-6 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
                     Ready for Your Adventure?
@@ -12,7 +12,7 @@ export default function CTASection() {
                 </p>
                 <Link
                     href="/treks"
-                    className="inline-block bg-white hover:bg-gray-100 hover:scale-105 text-[#2C5F7D] px-6 py-3 rounded-lg text-base font-bold transition-all duration-200 shadow-lg hover:shadow-2xl"
+                    className="inline-block bg-white hover:bg-gray-100 hover:scale-105 text-[#1B3B36] px-6 py-3 rounded-lg text-base font-bold transition-all duration-200 shadow-lg hover:shadow-2xl"
                 >
                     Start Planning Your Trek
                 </Link>

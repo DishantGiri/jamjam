@@ -31,15 +31,15 @@ export default function AboutUs() {
     ];
 
     return (
-        <section className="py-16 lg:py-24 bg-gradient-to-b from-gray-50 to-white">
+        <section className="py-16 lg:py-24 bg-[#1B3B36] text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 my-10">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-16">
                     {/* Left Column - Main Content */}
                     <div>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#1a3a52] mb-6 uppercase">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 uppercase">
                             JamJam Trek
                         </h2>
-                        <div className="text-gray-700 space-y-4">
+                        <div className="text-gray-200 space-y-4">
                             <p className="leading-relaxed text-justify">
                                 We are a passionate, experienced, and customer-focused adventure travel company based in
                                 the heart of Nepal. Specializing in trekking expeditions, cultural tours, mountain hiking,
@@ -70,22 +70,22 @@ export default function AboutUs() {
                                     className="flex flex-col"
                                 >
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="flex-shrink-0 w-12 h-12 bg-white border-2 border-[#2C5F7D] rounded-full flex items-center justify-center">
-                                            <Icon className="w-6 h-6 text-[#2C5F7D]" />
+                                        <div className="flex-shrink-0 w-12 h-12 bg-white/10 border-2 border-white/20 rounded-full flex items-center justify-center">
+                                            <Icon className="w-6 h-6 text-white" />
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="text-lg font-bold text-[#1a3a52] mb-2">
+                                            <h3 className="text-lg font-bold text-white mb-2">
                                                 {feature.title}
                                             </h3>
                                         </div>
                                     </div>
-                                    <p className="text-sm text-justify text-gray-600 leading-relaxed mb-3">
+                                    <p className="text-sm text-justify text-gray-300 leading-relaxed mb-3">
                                         {feature.description}
                                     </p>
                                     <a
                                         href={feature.link}
-                                        className="inline-flex items-center text-sm font-semibold text-[#2C5F7D] hover:text-[#244f68] transition-colors group"
-                                    >                                        
+                                        className="inline-flex items-center text-sm font-semibold text-white/80 hover:text-white transition-colors group"
+                                    >
                                     </a>
                                 </div>
                             );

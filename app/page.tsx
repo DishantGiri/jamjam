@@ -13,14 +13,20 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="pt-16 bg-white">
+      <main className="pt-20 bg-neutral-50 overflow-hidden font-sans">
         <HeroSection />
-        <StatsSection />
-        <FeaturedTreks />
-        <FeaturedTours />
-        <BlogSection />
-        <AboutUs />
-        <Testimonials />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+          <StatsSection />
+          <FeaturedTreks />
+          <FeaturedTours />
+          <AboutUs />
+        </div>
+        <div className="bg-[#f0f9f6] py-20 text-gray-900 w-full">
+          <Testimonials />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <BlogSection />
+        </div>
         <CTASection />
       </main>
       <Footer />

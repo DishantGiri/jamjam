@@ -111,7 +111,7 @@ export default function ReviewsPage() {
             <Navbar />
 
             {/* Header Section */}
-            <section className="bg-[#2C5F7D] text-white py-12 mt-16 md:mt-20">
+            <section className="bg-[#1B3B36] text-white py-12 mt-16 md:mt-20">
                 <div className="max-w-7xl mx-auto px-6">
                     <h1 className="text-3xl md:text-4xl font-bold mb-2">Travel Reviews</h1>
                     <p className="text-white/80 text-sm md:text-base max-w-2xl">
@@ -130,9 +130,9 @@ export default function ReviewsPage() {
                             <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 flex items-center justify-between">
                                 <div>
                                     <h3 className="text-sm font-medium text-gray-500 mb-1">Total Reviews</h3>
-                                    <p className="text-3xl font-bold text-[#2C5F7D]">{reviews.length}</p>
+                                    <p className="text-3xl font-bold text-[#1B3B36]">{reviews.length}</p>
                                 </div>
-                                <div className="p-3 bg-blue-50 rounded-full text-[#2C5F7D]">
+                                <div className="p-3 bg-blue-50 rounded-full text-[#1B3B36]">
                                     <Star className="w-6 h-6 fill-current" />
                                 </div>
                             </div>
@@ -141,7 +141,7 @@ export default function ReviewsPage() {
                             <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 flex items-center justify-between">
                                 <div>
                                     <h3 className="text-sm font-medium text-gray-500 mb-1">Average Rating</h3>
-                                    <p className="text-3xl font-bold text-[#2C5F7D]">
+                                    <p className="text-3xl font-bold text-[#1B3B36]">
                                         {reviews.length > 0 ? (reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length).toFixed(1) : '5.0'}
                                     </p>
                                 </div>
@@ -155,7 +155,7 @@ export default function ReviewsPage() {
 
                 {loading ? (
                     <div className="text-center py-20">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F7D]"></div>
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#1B3B36]"></div>
                     </div>
                 ) : reviews.length === 0 ? (
                     <div className="text-center py-20 bg-white rounded-lg border border-gray-100">
@@ -182,7 +182,7 @@ export default function ReviewsPage() {
                                 </p>
 
                                 <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-50">
-                                    <div className="w-10 h-10 rounded-full bg-blue-50 text-[#2C5F7D] flex items-center justify-center font-bold text-sm">
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 text-[#1B3B36] flex items-center justify-center font-bold text-sm">
                                         {review.name.charAt(0)}
                                     </div>
                                     <div>
@@ -197,7 +197,7 @@ export default function ReviewsPage() {
 
                 {/* Submit Review Form */}
                 <div className="mt-16 bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 max-w-2xl mx-auto">
-                    <div className="bg-[#2C5F7D] px-8 py-6 text-white text-center">
+                    <div className="bg-[#1B3B36] px-8 py-6 text-white text-center">
                         <h2 className="text-2xl font-bold mb-2">Share Your Experience</h2>
                         <p className="text-white/80 text-sm">We'd love to hear about your adventure with us!</p>
                     </div>
@@ -216,7 +216,7 @@ export default function ReviewsPage() {
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         placeholder="Your name"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2C5F7D] focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B3B36] focus:border-transparent outline-none transition-all"
                                     />
                                 </div>
 
@@ -230,7 +230,7 @@ export default function ReviewsPage() {
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         placeholder="your@email.com"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2C5F7D] focus:border-transparent outline-none transition-all"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B3B36] focus:border-transparent outline-none transition-all"
                                     />
                                 </div>
                             </div>
@@ -256,7 +256,7 @@ export default function ReviewsPage() {
                                     onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
                                     placeholder="Tell us about your trip..."
                                     rows={5}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2C5F7D] focus:border-transparent outline-none resize-none transition-all"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1B3B36] focus:border-transparent outline-none resize-none transition-all"
                                 />
                             </div>
 
@@ -264,7 +264,7 @@ export default function ReviewsPage() {
                             <button
                                 type="submit"
                                 disabled={submitting}
-                                className="w-full bg-[#2C5F7D] text-white py-4 rounded-lg font-bold hover:bg-[#234d66] transition-all duration-200 flex items-center justify-center gap-2 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5"
+                                className="w-full bg-[#1B3B36] text-white py-4 rounded-lg font-bold hover:bg-[#142C28] transition-all duration-200 flex items-center justify-center gap-2 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5"
                             >
                                 <Send className="w-5 h-5" />
                                 {submitting ? 'Submitting...' : 'Submit Review'}

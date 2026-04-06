@@ -47,7 +47,7 @@ export default function BlogSection() {
                     </div>
                     <Link
                         href="/blog"
-                        className="hidden md:inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
+                        className="hidden md:inline-block border border-gray-200 hover:border-[#1B3B36] hover:text-[#1B3B36] text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
                     >
                         View All Articles
                     </Link>
@@ -55,7 +55,7 @@ export default function BlogSection() {
 
                 {loading ? (
                     <div className="text-center py-12">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#2C5F7D]"></div>
+                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B3B36]"></div>
                     </div>
                 ) : posts.length === 0 ? (
                     <div className="text-center py-12 text-gray-500">
@@ -102,7 +102,7 @@ export default function BlogSection() {
                                             </span>
                                         </div>
 
-                                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#2C5F7D] transition-colors line-clamp-2">
+                                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#1B3B36] transition-colors line-clamp-2">
                                             {post.title}
                                         </h3>
 
@@ -110,7 +110,7 @@ export default function BlogSection() {
                                             {post.description || post.excerpt || "Read more about this amazing adventure..."}
                                         </p>
 
-                                        <div className="mt-auto text-sm font-semibold text-[#2C5F7D] flex items-center gap-1 group-hover:gap-2 transition-all">
+                                        <div className="mt-auto text-sm font-semibold text-[#1B3B36] flex items-center gap-1 group-hover:gap-2 transition-all">
                                             Read More <ArrowRight className="w-4 h-4" />
                                         </div>
                                     </div>
@@ -121,7 +121,7 @@ export default function BlogSection() {
                         <div className="text-center mt-8 md:hidden">
                             <Link
                                 href="/blog"
-                                className="inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
+                                className="inline-block border border-gray-200 hover:border-[#1B3B36] hover:text-[#1B3B36] text-gray-600 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
                             >
                                 View All Articles
                             </Link>

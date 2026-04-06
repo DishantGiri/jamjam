@@ -114,7 +114,7 @@ export default function TreksPage() {
             <Navbar />
 
             {/* Header Section */}
-            <section className="bg-[#2C5F7D] text-white py-12 mt-16 md:mt-20">
+            <section className="bg-[#1B3B36] text-white py-12 mt-16 md:mt-20">
                 <div className="max-w-7xl mx-auto px-6">
                     <h1 className="text-3xl md:text-4xl font-bold mb-2">Explore Our Treks</h1>
                     <p className="text-white/80 text-sm md:text-base max-w-2xl">
@@ -133,7 +133,7 @@ export default function TreksPage() {
                             {/* Featured Filter */}
                             <div className="mb-8">
                                 <label className="flex items-center gap-3 cursor-pointer group">
-                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.featuredOnly ? 'bg-[#2C5F7D] border-[#2C5F7D]' : 'border-gray-300 bg-white'}`}>
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.featuredOnly ? 'bg-[#1B3B36] border-[#1B3B36]' : 'border-gray-300 bg-white'}`}>
                                         {filters.featuredOnly && <Check className="w-3.5 h-3.5 text-white" />}
                                     </div>
                                     <input
@@ -153,7 +153,7 @@ export default function TreksPage() {
                                 <div className="space-y-3">
                                     {['trek', 'package'].map((type) => (
                                         <label key={type} className="flex items-center gap-3 cursor-pointer group">
-                                            <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.types[type as keyof typeof filters.types] ? 'bg-[#2C5F7D] border-[#2C5F7D]' : 'border-gray-300 bg-white'}`}>
+                                            <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.types[type as keyof typeof filters.types] ? 'bg-[#1B3B36] border-[#1B3B36]' : 'border-gray-300 bg-white'}`}>
                                                 {filters.types[type as keyof typeof filters.types] && <Check className="w-3.5 h-3.5 text-white" />}
                                             </div>
                                             <input
@@ -174,7 +174,7 @@ export default function TreksPage() {
                                 <div className="space-y-3">
                                     {['easy', 'moderate', 'hard'].map((diff) => (
                                         <label key={diff} className="flex items-center gap-3 cursor-pointer group">
-                                            <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.difficulty[diff as keyof typeof filters.difficulty] ? 'bg-[#2C5F7D] border-[#2C5F7D]' : 'border-gray-300 bg-white'}`}>
+                                            <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.difficulty[diff as keyof typeof filters.difficulty] ? 'bg-[#1B3B36] border-[#1B3B36]' : 'border-gray-300 bg-white'}`}>
                                                 {filters.difficulty[diff as keyof typeof filters.difficulty] && <Check className="w-3.5 h-3.5 text-white" />}
                                             </div>
                                             <input
@@ -203,7 +203,7 @@ export default function TreksPage() {
                         {/* Loading State */}
                         {loading && (
                             <div className="text-center py-20">
-                                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F7D]"></div>
+                                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#1B3B36]"></div>
                             </div>
                         )}
 
@@ -217,7 +217,7 @@ export default function TreksPage() {
                                         types: { trek: false, package: false },
                                         difficulty: { easy: false, moderate: false, hard: false }
                                     })}
-                                    className="mt-4 text-[#2C5F7D] font-medium hover:underline"
+                                    className="mt-4 text-[#1B3B36] font-medium hover:underline"
                                 >
                                     Clear all filters
                                 </button>
@@ -266,7 +266,7 @@ export default function TreksPage() {
                                         </div>
 
                                         <div className="p-4 flex flex-col flex-grow">
-                                            <h3 className="text-base font-bold text-gray-900 mb-3 line-clamp-1 group-hover:text-[#2C5F7D] transition-colors">
+                                            <h3 className="text-base font-bold text-gray-900 mb-3 line-clamp-1 group-hover:text-[#1B3B36] transition-colors">
                                                 {trek.title}
                                             </h3>
 
@@ -291,7 +291,7 @@ export default function TreksPage() {
                                             </div>
 
                                             <div className="flex items-center justify-end mt-auto pt-4 border-t border-gray-50">
-                                                <button className="bg-[#2C5F7D] hover:bg-[#234d66] text-white px-4 py-2 rounded text-xs font-semibold transition-colors">
+                                                <button className="bg-[#1B3B36] hover:bg-[#142C28] text-white px-4 py-2 rounded text-xs font-semibold transition-colors">
                                                     View Details
                                                 </button>
                                             </div>

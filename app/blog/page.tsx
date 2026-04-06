@@ -52,7 +52,7 @@ export default function BlogPage() {
             <Navbar />
 
             {/* Header Section */}
-            <section className="bg-[#2C5F7D] text-white py-12 mt-16 md:mt-20">
+            <section className="bg-[#1B3B36] text-white py-12 mt-16 md:mt-20">
                 <div className="max-w-7xl mx-auto px-6">
                     <h1 className="text-3xl md:text-4xl font-bold mb-2">Travel Blog</h1>
                     <p className="text-white/80 text-sm md:text-base max-w-2xl">
@@ -66,7 +66,7 @@ export default function BlogPage() {
                 <div className="max-w-7xl mx-auto px-6">
                     {loading ? (
                         <div className="text-center py-20">
-                            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F7D]"></div>
+                            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#1B3B36]"></div>
                         </div>
                     ) : blogs.length === 0 ? (
                         <div className="text-center py-20">
@@ -113,7 +113,7 @@ export default function BlogPage() {
                                         </div>
 
                                         {/* Title */}
-                                        <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#2C5F7D] transition-colors">
+                                        <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#1B3B36] transition-colors">
                                             {blog.title}
                                         </h3>
 
@@ -123,7 +123,7 @@ export default function BlogPage() {
                                         </p>
 
                                         {/* Read More Link */}
-                                        <div className="mt-auto text-sm font-semibold text-[#2C5F7D] flex items-center gap-1 group-hover:gap-2 transition-all">
+                                        <div className="mt-auto text-sm font-semibold text-[#1B3B36] flex items-center gap-1 group-hover:gap-2 transition-all">
                                             Read More <ArrowRight className="w-4 h-4" />
                                         </div>
                                     </div>

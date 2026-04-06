@@ -9,7 +9,7 @@ export default function StatsSection() {
     ];
 
     return (
-        <section className="bg-[#2C5F7D] py-8 relative -mt-10 z-20 mx-4 md:mx-auto max-w-7xl rounded-lg shadow-xl">
+        <section className="bg-[#1B3B36] py-8 relative -mt-10 z-20 mx-4 md:mx-auto max-w-7xl rounded-lg shadow-xl">
             <div className="px-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white divide-x-0 md:divide-x divide-white/20">
                     {stats.map((stat, index) => {

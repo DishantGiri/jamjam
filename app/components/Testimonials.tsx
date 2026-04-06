@@ -37,20 +37,20 @@ export default function Testimonials() {
     }, []);
 
     return (
-        <section className="py-12 bg-gray-50">
+        <section className="py-12 bg-transparent text-gray-900 w-full">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                        <h2 className="text-3xl font-bold text-gray-900 mb-2">
                             What Our Travelers Say
                         </h2>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-base text-gray-600">
                             Read experiences from our happy travelers
                         </p>
                     </div>
                     <Link
                         href="/reviews"
-                        className="hidden md:inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
+                        className="hidden md:inline-block border border-gray-200 hover:border-[#1B3B36] hover:text-[#1B3B36] text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
                     >
                         View All Reviews
                     </Link>
@@ -58,7 +58,7 @@ export default function Testimonials() {
 
                 {loading ? (
                     <div className="text-center py-12">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#2C5F7D]"></div>
+                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#1B3B36]"></div>
                     </div>
                 ) : reviews.length === 0 ? (
                     <div className="text-center py-12">
@@ -102,7 +102,7 @@ export default function Testimonials() {
                         <div className="text-center mt-8 md:hidden">
                             <Link
                                 href="/reviews"
-                                className="inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
+                                className="inline-block border border-gray-200 hover:border-[#1B3B36] hover:text-[#1B3B36] text-gray-600 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
                             >
                                 View All Reviews
                             </Link>

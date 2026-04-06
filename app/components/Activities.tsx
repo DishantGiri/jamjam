@@ -51,7 +51,7 @@ export default function Activities() {
                     </div>
                     <Link
                         href="/activities"
-                        className="hidden md:inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
+                        className="hidden md:inline-block border border-gray-200 hover:border-[#1B3B36] hover:text-[#1B3B36] text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold transition-all duration-200"
                     >
                         View All Activities
                     </Link>
@@ -59,7 +59,7 @@ export default function Activities() {
 
                 {loading ? (
                     <div className="text-center py-12">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F7D]"></div>
+                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#1B3B36]"></div>
                     </div>
                 ) : (
                     <>
@@ -130,7 +130,7 @@ export default function Activities() {
                                         </div>
 
                                         <div className="flex items-end justify-end mt-auto pt-4 border-t border-gray-50">
-                                            <button className="bg-[#2C5F7D] hover:bg-[#244f68] text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                                            <button className="bg-[#1B3B36] hover:bg-[#142C28] text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">
                                                 View Details
                                             </button>
                                         </div>
@@ -142,7 +142,7 @@ export default function Activities() {
                         <div className="text-center mt-8 md:hidden">
                             <Link
                                 href="/activities"
-                                className="inline-block border border-gray-200 hover:border-[#2C5F7D] hover:text-[#2C5F7D] text-gray-600 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
+                                className="inline-block border border-gray-200 hover:border-[#1B3B36] hover:text-[#1B3B36] text-gray-600 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200"
                             >
                                 View All Activities
                             </Link>

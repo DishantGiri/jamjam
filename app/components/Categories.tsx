@@ -17,8 +17,8 @@ export default function Categories() {
             icon: Mountain,
             title: 'Trekking in Nepal',
             count: '25 Treks',
-            color: 'text-[#2C5F7D]',
-            bgColor: 'bg-[#2C5F7D]/10',
+            color: 'text-[#1B3B36]',
+            bgColor: 'bg-[#1B3B36]/10',
             href: '/treks'
         },
         {

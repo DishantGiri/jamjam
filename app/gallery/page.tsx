@@ -51,7 +51,7 @@ export default async function GalleryPage() {
         <main className="min-h-screen pt-28 pb-16 bg-gray-50">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-[#2C5F7D] mb-4">Our Gallery</h1>
+                    <h1 className="text-4xl font-bold text-[#1B3B36] mb-4">Our Gallery</h1>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Explore the breathtaking landscapes and unforgettable moments captured during our treks and tours.
                     </p>

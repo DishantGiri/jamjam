@@ -5,7 +5,7 @@ export default function HeroSection() {
     return (
         <section className="relative h-screen w-full">
             <Image
-                src="/hero.jpg"
+                src="/hero.webp"
                 alt="Himalayan Mountains"
                 fill
                 className="object-cover"
@@ -25,7 +25,7 @@ export default function HeroSection() {
                 <div className="flex flex-col sm:flex-row gap-4">
                     <Link
                         href="/treks"
-                        className="bg-[#2C5F7D] hover:bg-[#234d66] hover:scale-105 text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center border-2 border-[#2C5F7D]"
+                        className="bg-[#1B3B36] hover:bg-[#142C28] hover:scale-105 text-white px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center border-2 border-[#1B3B36]"
                     >
                         Explore Treks
                     </Link>

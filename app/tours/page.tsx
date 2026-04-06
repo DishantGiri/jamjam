@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -143,7 +143,7 @@ export default function ToursPage() {
         <>
             <Navbar />
 
-            <div className="bg-gradient-to-r from-[#2C5F7D] to-[#1a3a4d] py-16 mt-16">
+            <div className="bg-gradient-to-r from-[#1B3B36] to-[#1a3a4d] py-16 mt-16">
                 <div className="max-w-7xl mx-auto px-6">
                     <h1 className="text-3xl md:text-4xl font-bold mb-2 text-white">Explore Our Tour Packages</h1>
                     <p className="text-white/80 text-sm md:text-base max-w-2xl">
@@ -161,7 +161,7 @@ export default function ToursPage() {
 
                             <div className="mb-6 space-y-3">
                                 <label className="flex items-center gap-3 cursor-pointer group">
-                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.featuredOnly ? 'bg-[#2C5F7D] border-[#2C5F7D]' : 'border-gray-300'
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.featuredOnly ? 'bg-[#1B3B36] border-[#1B3B36]' : 'border-gray-300'
                                         }`}>
                                         {filters.featuredOnly && <Check className="w-3 h-3 text-white" />}
                                     </div>
@@ -175,7 +175,7 @@ export default function ToursPage() {
                                 </label>
 
                                 <label className="flex items-center gap-3 cursor-pointer group">
-                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.popularOnly ? 'bg-[#2C5F7D] border-[#2C5F7D]' : 'border-gray-300'
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.popularOnly ? 'bg-[#1B3B36] border-[#1B3B36]' : 'border-gray-300'
                                         }`}>
                                         {filters.popularOnly && <Check className="w-3 h-3 text-white" />}
                                     </div>
@@ -195,7 +195,7 @@ export default function ToursPage() {
                                     {['easy', 'moderate', 'challenging', 'extreme'].map((diff) => (
                                         <label key={diff} className="flex items-center gap-3 cursor-pointer group">
                                             <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.difficulty[diff as keyof typeof filters.difficulty]
-                                                ? 'bg-[#2C5F7D] border-[#2C5F7D]'
+                                                ? 'bg-[#1B3B36] border-[#1B3B36]'
                                                 : 'border-gray-300'
                                                 }`}>
                                                 {filters.difficulty[diff as keyof typeof filters.difficulty] && (
@@ -227,7 +227,7 @@ export default function ToursPage() {
 
                         {loading && (
                             <div className="flex justify-center items-center py-20">
-                                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F7D]"></div>
+                                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#1B3B36]"></div>
                             </div>
                         )}
 
@@ -240,7 +240,7 @@ export default function ToursPage() {
                                         popularOnly: false,
                                         difficulty: { easy: false, moderate: false, challenging: false, extreme: false }
                                     })}
-                                    className="mt-4 text-[#2C5F7D] font-medium hover:underline"
+                                    className="mt-4 text-[#1B3B36] font-medium hover:underline"
                                 >
                                     Clear all filters
                                 </button>
@@ -289,7 +289,7 @@ export default function ToursPage() {
                                             {tour.destination}
                                         </div>
 
-                                        <h3 className="text-base font-bold text-gray-900 mb-3 line-clamp-1 group-hover:text-[#2C5F7D] transition-colors">
+                                        <h3 className="text-base font-bold text-gray-900 mb-3 line-clamp-1 group-hover:text-[#1B3B36] transition-colors">
                                             {tour.title}
                                         </h3>
 
@@ -315,7 +315,7 @@ export default function ToursPage() {
                                         </div>
 
                                         <div className="flex items-end justify-end pt-3 border-t border-gray-100">
-                                            <span className="text-sm font-medium text-[#2C5F7D] group-hover:underline">
+                                            <span className="text-sm font-medium text-[#1B3B36] group-hover:underline">
                                                 View Details
                                             </span>
                                         </div>
