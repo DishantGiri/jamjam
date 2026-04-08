@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, use } from 'react';
-import { getTreks, type Trek } from '@/lib/api';
+import { getTrek, type Trek } from '@/lib/api';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
@@ -18,19 +18,15 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
     useEffect(() => {
         const fetchTrek = async () => {
             try {
-                const response = await getTreks({ is_active: true });
-                // Handle API response structure
-                let trekData = [];
-                if (Array.isArray(response)) {
-                    trekData = response;
-                } else if (response && Array.isArray(response.data)) {
-                    trekData = response.data;
-                } else if (response && response.data && typeof response.data === 'object') {
-                    trekData = response.data.treks || response.data.items || [];
-                }
+                const response = await getTrek(parseInt(resolvedParams.id));
+                let foundTrek = null;
 
-                // Find the specific trek by ID
-                const foundTrek = trekData.find((t: Trek) => t.id === parseInt(resolvedParams.id));
+                // Handle typical nested shapes like {success: true, data: { ... }}
+                if (response?.success && response?.data) {
+                    foundTrek = response.data;
+                } else if (response && !response?.success && response?.data === undefined) {
+                    foundTrek = response; // Fallback if returned directly
+                }
 
                 // Parse trek_days if it's a string or array with escaped items (handle multiple layers of escaping)
                 if (foundTrek && foundTrek.trek_days) {
@@ -224,8 +220,19 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
 
                     {/* Image Slider */}
                     {allImages.length > 0 ? (
-                        <div className="relative bg-gray-900">
-                            <div className="relative h-[500px] max-w-7xl mx-auto">
+                        <div className="relative bg-gray-950 overflow-hidden">
+                            {/* Blurred Background using the active image */}
+                            <div className="absolute inset-0 z-0 opacity-40 blur-2xl scale-110 pointer-events-none">
+                                <Image
+                                    src={allImages[currentImageIndex]}
+                                    alt="background blur"
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
+                                />
+                            </div>
+
+                            <div className="relative h-[400px] md:h-[600px] max-w-5xl mx-auto z-10">
                                 {allImages.map((imageUrl, index) => (
                                     <div
                                         key={index}
@@ -236,8 +243,9 @@ export default function TrekDetailPage({ params }: { params: Promise<{ id: strin
                                             src={imageUrl}
                                             alt={`${trek.title} - Image ${index + 1}`}
                                             fill
-                                            className="object-cover"
+                                            className="object-contain drop-shadow-2xl"
                                             unoptimized
+                                            priority={index === 0}
                                         />
                                     </div>
                                 ))}

@@ -201,8 +201,19 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
 
                     {/* Image Slider */}
                     {allImages.length > 0 ? (
-                        <div className="relative bg-gray-900">
-                            <div className="relative h-[500px] max-w-7xl mx-auto">
+                        <div className="relative bg-gray-950 overflow-hidden">
+                            {/* Blurred Background using the active image */}
+                            <div className="absolute inset-0 z-0 opacity-40 blur-2xl scale-110 pointer-events-none">
+                                <Image
+                                    src={allImages[currentImageIndex]}
+                                    alt="background blur"
+                                    fill
+                                    className="object-cover"
+                                    unoptimized
+                                />
+                            </div>
+
+                            <div className="relative h-[400px] md:h-[600px] max-w-5xl mx-auto z-10">
                                 {allImages.map((imageUrl, index) => (
                                     <div
                                         key={index}
@@ -213,8 +224,9 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
                                             src={imageUrl}
                                             alt={`${tour.title} - Image ${index + 1}`}
                                             fill
-                                            className="object-cover"
+                                            className="object-contain drop-shadow-2xl"
                                             unoptimized
+                                            priority={index === 0}
                                         />
                                     </div>
                                 ))}
