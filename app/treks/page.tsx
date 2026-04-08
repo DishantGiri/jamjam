@@ -12,6 +12,8 @@ export default function TreksPage() {
     const [treks, setTreks] = useState<Trek[]>([]);
     const [filteredTreks, setFilteredTreks] = useState<Trek[]>([]);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pagination, setPagination] = useState({ total: 0, last_page: 1, per_page: 10 });
 
     // Filter states
     const [filters, setFilters] = useState({
@@ -29,17 +31,26 @@ export default function TreksPage() {
 
     useEffect(() => {
         const fetchTreks = async () => {
+            setLoading(true);
             try {
-                // Fetch all active treks initially
-                const response = await getTreks({ is_active: true });
-                // Handle multiple response formats
+                // Fetch active treks for the current page
+                const response = await getTreks({ 
+                    is_active: true,
+                    page: currentPage,
+                    per_page: 12 // Using 12 for a better grid (3x4 or 2x6)
+                });
+                
+                // Handle complex response format (Success wrapper with pagination)
                 let trekData = [];
-                if (Array.isArray(response)) {
+                if (response && response.data && Array.isArray(response.data.treks)) {
+                    trekData = response.data.treks;
+                    if (response.data.pagination) {
+                        setPagination(response.data.pagination);
+                    }
+                } else if (Array.isArray(response)) {
                     trekData = response;
                 } else if (response && Array.isArray(response.data)) {
                     trekData = response.data;
-                } else if (response && response.data && typeof response.data === 'object') {
-                    trekData = response.data.treks || response.data.items || [];
                 }
 
                 setTreks(trekData || []);
@@ -52,7 +63,7 @@ export default function TreksPage() {
         };
 
         fetchTreks();
-    }, []);
+    }, [currentPage]);
 
     useEffect(() => {
         let result = [...treks];
@@ -196,7 +207,8 @@ export default function TreksPage() {
                         {/* Sort Header */}
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                             <p className="text-sm text-gray-500">
-                                Showing <span className="font-semibold text-gray-900">{filteredTreks.length}</span> of {treks.length} treks
+                                Showing <span className="font-semibold text-gray-900">{filteredTreks.length}</span> treks
+                                {pagination.total > 0 && <span> of total {pagination.total} treks</span>}
                             </p>
                         </div>
 
@@ -300,6 +312,43 @@ export default function TreksPage() {
                                 );
                             })}
                         </div>
+
+                        {/* Pagination */}
+                        {!loading && pagination.last_page > 1 && (
+                            <div className="mt-12 flex justify-center items-center gap-2">
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                    disabled={currentPage === 1}
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Previous
+                                </button>
+                                
+                                <div className="flex items-center gap-1">
+                                    {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((page) => (
+                                        <button
+                                            key={page}
+                                            onClick={() => setCurrentPage(page)}
+                                            className={`w-10 h-10 flex items-center justify-center text-sm font-medium rounded-md transition-colors ${
+                                                currentPage === page
+                                                    ? 'bg-[#1B3B36] text-white'
+                                                    : 'text-gray-700 hover:bg-gray-50 border border-transparent hover:border-gray-200'
+                                            }`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.min(pagination.last_page, prev + 1))}
+                                    disabled={currentPage === pagination.last_page}
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </main>

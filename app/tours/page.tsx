@@ -52,6 +52,8 @@ export default function ToursPage() {
     const [tours, setTours] = useState<Tour[]>([]);
     const [filteredTours, setFilteredTours] = useState<Tour[]>([]);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pagination, setPagination] = useState({ total: 0, last_page: 1, per_page: 10 });
     const [filters, setFilters] = useState({
         featuredOnly: false,
         popularOnly: false,
@@ -65,25 +67,25 @@ export default function ToursPage() {
 
     useEffect(() => {
         const fetchTours = async () => {
+            setLoading(true);
             try {
                 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-                const response = await fetch(`${API_BASE_URL}/tours?is_active=1`);
+                const response = await fetch(`${API_BASE_URL}/tours?is_active=1&page=${currentPage}&per_page=12`);
                 const result = await response.json();
 
-                console.log('API Response:', result); // Debug log
+                console.log('API Response:', result);
 
                 let toursData = [];
                 if (result.success && result.data && Array.isArray(result.data.tours)) {
                     toursData = result.data.tours;
+                    if (result.data.pagination) {
+                        setPagination(result.data.pagination);
+                    }
                 } else if (Array.isArray(result)) {
                     toursData = result;
                 } else if (result && Array.isArray(result.data)) {
                     toursData = result.data;
-                } else if (result && typeof result === 'object') {
-                    toursData = result.tours || result.items || [];
                 }
-
-                console.log('Processed tours:', toursData); // Debug log
 
                 setTours(toursData || []);
                 setFilteredTours(toursData || []);
@@ -95,7 +97,7 @@ export default function ToursPage() {
         };
 
         fetchTours();
-    }, []); useEffect(() => {
+    }, [currentPage]); useEffect(() => {
         let result = [...tours];
 
         if (filters.featuredOnly) {
@@ -220,8 +222,8 @@ export default function ToursPage() {
                     <div className="lg:col-span-3">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                             <p className="text-sm text-gray-500">
-                                Showing <span className="font-semibold text-gray-900">{filteredTours.length}</span> of{' '}
-                                <span className="font-semibold text-gray-900">{tours.length}</span> tours
+                                Showing <span className="font-semibold text-gray-900">{filteredTours.length}</span> tours
+                                {pagination.total > 0 && <span> of total {pagination.total} tours</span>}
                             </p>
                         </div>
 
@@ -323,6 +325,43 @@ export default function ToursPage() {
                                 </Link>
                             ))}
                         </div>
+
+                        {/* Pagination */}
+                        {!loading && pagination.last_page > 1 && (
+                            <div className="mt-12 flex justify-center items-center gap-2">
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                    disabled={currentPage === 1}
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Previous
+                                </button>
+                                
+                                <div className="flex items-center gap-1">
+                                    {Array.from({ length: pagination.last_page }, (_, i) => i + 1).map((page) => (
+                                        <button
+                                            key={page}
+                                            onClick={() => setCurrentPage(page)}
+                                            className={`w-10 h-10 flex items-center justify-center text-sm font-medium rounded-md transition-colors ${
+                                                currentPage === page
+                                                    ? 'bg-[#1B3B36] text-white'
+                                                    : 'text-gray-700 hover:bg-gray-50 border border-transparent hover:border-gray-200'
+                                            }`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.min(pagination.last_page, prev + 1))}
+                                    disabled={currentPage === pagination.last_page}
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -177,10 +177,10 @@ function OverviewTab() {
 
             // Fetch all data in parallel
             const [treksRes, toursRes, blogsRes, reviewsRes] = await Promise.all([
-                fetch(`${API_BASE_URL}/treks`, { headers }),
-                fetch(`${API_BASE_URL}/tours`, { headers }),
-                fetch(`${API_BASE_URL}/blogs`, { headers }),
-                fetch(`${API_BASE_URL}/reviews`, { headers })
+                fetch(`${API_BASE_URL}/treks?per_page=100`, { headers }),
+                fetch(`${API_BASE_URL}/tours?per_page=100`, { headers }),
+                fetch(`${API_BASE_URL}/blogs?per_page=100`, { headers }),
+                fetch(`${API_BASE_URL}/reviews?per_page=100`, { headers })
             ]);
 
             const treksData = await treksRes.json();
@@ -188,51 +188,42 @@ function OverviewTab() {
             const blogsData = await blogsRes.json();
             const reviewsData = await reviewsRes.json();
 
-            // Extract data from responses - handle API format: {success: true, data: {treks: [...], pagination: {...}}}
+            // Extract data and totals from responses
             let treks = [];
+            let totalTreks = 0;
             if (treksData.success && treksData.data && Array.isArray(treksData.data.treks)) {
                 treks = treksData.data.treks;
+                totalTreks = treksData.data.pagination?.total || treks.length;
             } else if (Array.isArray(treksData)) {
                 treks = treksData;
+                totalTreks = treks.length;
             } else if (treksData && Array.isArray(treksData.data)) {
                 treks = treksData.data;
-            } else if (treksData && typeof treksData === 'object') {
-                treks = treksData.treks || treksData.items || [];
+                totalTreks = treks.length;
             }
 
             let tours = [];
+            let totalTours = 0;
             if (toursData.success && toursData.data && Array.isArray(toursData.data.tours)) {
                 tours = toursData.data.tours;
+                totalTours = toursData.data.pagination?.total || tours.length;
             } else if (toursData.success && toursData.data && Array.isArray(toursData.data)) {
                 tours = toursData.data;
-            } else if (Array.isArray(toursData)) {
-                tours = toursData;
-            } else if (toursData && Array.isArray(toursData.data)) {
-                tours = toursData.data;
-            } else if (toursData && typeof toursData === 'object') {
-                tours = toursData.tours || toursData.items || [];
+                totalTours = tours.length;
             }
 
             let blogs = [];
+            let totalBlogs = 0;
             if (blogsData.success && blogsData.data && Array.isArray(blogsData.data)) {
                 blogs = blogsData.data;
-            } else if (Array.isArray(blogsData)) {
-                blogs = blogsData;
-            } else if (blogsData && Array.isArray(blogsData.data)) {
-                blogs = blogsData.data;
-            } else if (blogsData && typeof blogsData === 'object') {
-                blogs = blogsData.blogs || blogsData.items || [];
+                totalBlogs = blogs.length;
             }
 
             let reviews = [];
+            let totalReviews = 0;
             if (reviewsData.success && reviewsData.data && Array.isArray(reviewsData.data)) {
                 reviews = reviewsData.data;
-            } else if (Array.isArray(reviewsData)) {
-                reviews = reviewsData;
-            } else if (reviewsData && Array.isArray(reviewsData.data)) {
-                reviews = reviewsData.data;
-            } else if (reviewsData && typeof reviewsData === 'object') {
-                reviews = reviewsData.reviews || reviewsData.items || [];
+                totalReviews = reviews.length;
             }
 
             // Calculate stats
@@ -249,10 +240,10 @@ function OverviewTab() {
                 : 0;
 
             setStats({
-                treks: treks.length,
-                tours: tours.length,
-                blogs: blogs.length,
-                reviews: reviews.length,
+                treks: totalTreks,
+                tours: totalTours,
+                blogs: totalBlogs,
+                reviews: totalReviews,
                 avgRating: Math.round(avgRating * 10) / 10,
                 approvedReviews,
                 pendingReviews,
@@ -1948,7 +1939,7 @@ function TreksTab() {
     const fetchTreks = async () => {
         try {
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`${API_BASE_URL}/treks`, {
+            const response = await fetch(`${API_BASE_URL}/treks?per_page=100`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',

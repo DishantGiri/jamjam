@@ -103,21 +103,26 @@ export interface Tour {
 }
 
 // Treks API
-export const getTreks = async (params?: { data_type?: 'trek' | 'package'; is_active?: boolean; is_featured?: boolean }) => {
+export const getTreks = async (params?: {
+    data_type?: 'trek' | 'package';
+    is_active?: boolean;
+    is_featured?: boolean;
+    per_page?: number;
+    page?: number;
+}) => {
     const queryParams = new URLSearchParams();
     if (params?.data_type) queryParams.append('data_type', params.data_type);
     if (params?.is_active !== undefined) queryParams.append('is_active', params.is_active ? '1' : '0');
     if (params?.is_featured !== undefined) queryParams.append('is_featured', params.is_featured ? '1' : '0');
+    if (params?.per_page) queryParams.append('per_page', String(params.per_page));
+    if (params?.page) queryParams.append('page', String(params.page));
 
     const url = `${API_BASE_URL}/treks${queryParams.toString() ? `?${queryParams}` : ''}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Failed to fetch treks');
     const data = await response.json();
 
-    // Return the treks array from the nested structure
-    if (data.success && data.data && Array.isArray(data.data.treks)) {
-        return data.data.treks;
-    }
+    // Return the full data to preserve pagination info
     return data;
 };
 
@@ -138,10 +143,7 @@ export const getActivities = async (params?: { category?: string; is_active?: bo
     if (!response.ok) throw new Error('Failed to fetch activities');
     const data = await response.json();
 
-    // Return the activities array from the nested structure
-    if (data.success && data.data && Array.isArray(data.data.activities)) {
-        return data.data.activities;
-    }
+    // Return the full data to preserve pagination info
     return data;
 };
 
