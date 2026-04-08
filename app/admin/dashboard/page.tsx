@@ -1931,15 +1931,18 @@ function TreksTab() {
     const [loading, setLoading] = useState(true);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [editingTrek, setEditingTrek] = useState<any | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        fetchTreks();
-    }, []);
+        fetchTreks(currentPage);
+    }, [currentPage]);
 
-    const fetchTreks = async () => {
+    const fetchTreks = async (page = currentPage) => {
         try {
+            setLoading(true);
             const token = localStorage.getItem('authToken');
-            const response = await fetch(`${API_BASE_URL}/treks?per_page=100`, {
+            const response = await fetch(`${API_BASE_URL}/treks?page=${page}&per_page=10`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -1951,6 +1954,7 @@ function TreksTab() {
                 const errorText = await response.text();
                 console.error('Error response:', errorText);
                 setTreks([]);
+                setTotalPages(1);
                 setLoading(false);
                 return;
             }
@@ -1960,20 +1964,28 @@ function TreksTab() {
 
             // Handle API response structure: {success: true, data: {treks: [...], pagination: {...}}}
             let treksData = [];
+            let lastPage = 1;
+
             if (data.success && data.data && Array.isArray(data.data.treks)) {
                 treksData = data.data.treks;
+                lastPage = data.data.pagination?.last_page || 1;
             } else if (Array.isArray(data)) {
                 treksData = data;
             } else if (data && Array.isArray(data.data)) {
                 treksData = data.data;
+                lastPage = data.pagination?.last_page || 1;
             } else if (data && typeof data === 'object') {
                 // Fallback: try to get array from common property names
                 treksData = data.treks || data.items || [];
+                lastPage = data.pagination?.last_page || 1;
             }
+
             setTreks(treksData);
+            setTotalPages(lastPage);
         } catch (error) {
             console.error('Error fetching treks:', error);
             setTreks([]);
+            setTotalPages(1);
         } finally {
             setLoading(false);
         }
@@ -2074,6 +2086,28 @@ function TreksTab() {
                     </div>
                 ))}
             </div>
+
+            {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-6">
+                    <button
+                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 bg-white border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors"
+                    >
+                        Previous
+                    </button>
+                    <span className="text-sm text-gray-600 font-medium">
+                        Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 bg-white border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
